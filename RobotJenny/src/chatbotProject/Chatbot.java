@@ -25,21 +25,17 @@ public class Chatbot {
 				chatting = false;
 				jenny.startChatting(response);
 			}
-			else {
-				if(sam.isTriggered(response)) {
+			else if(sam.isTriggered(response)) {
 					chatting = false;
 					sam.startChatting(response);
 				}
-				else {
-					if(erik.isTriggered(response)) {
+			else if(erik.isTriggered(response)) {
 						chatting = false;
 						erik.startChatting(response);
-					}
-					else
-						ChatbotMain.print("I'm sorry. I don't understand.");
 				}
-			}	
-		}
+			else
+				ChatbotMain.print("I'm sorry. I don't understand.");
+			}
+		}	
 	}
 
-}
