@@ -8,10 +8,10 @@ public class ChatbotJenny implements Topic {
 	private boolean chatting;
 
 	public ChatbotJenny() {
-		String[] temp = {"food", "Internet", "entertainment"};
+		String[] temp = {"date", "girlfriend", "free", "hang out"};
 		keywords = temp;
 		goodbyeWord = "bye";
-		secretWord = "nanana";
+		secretWord = "EXO";
 	}
 
 	public boolean isTriggered(String response) {
