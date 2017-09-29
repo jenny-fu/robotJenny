@@ -13,7 +13,7 @@ public class Chatbot {
 		userName = "unknown user";
 		chatting = true;
 	}
-	
+
 	public void startTalking() {
 		ChatbotMain.print("Welcome to our chatbot! What is your name?");
 		userName = ChatbotMain.getInput();
