@@ -10,6 +10,8 @@ public class Chatbot {
 
 	public Chatbot() {
 		jenny = new ChatbotJenny();
+		jenny = new ChatbotSam();
+		jenny = new ChatbotErik();
 		userName = "unknown user";
 		chatting = true;
 	}
