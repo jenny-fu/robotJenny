@@ -52,10 +52,10 @@ public class ChatbotMain {
 	  }
 	  
 	  public static boolean noNegations(String s, int psn){
-			if(psn == 0) {
+			if(psn == 0 || psn-4 < 0) {
 				return true;
 			}
-			else {
+			else{
 				if(("not".equals(s.toLowerCase().substring(psn-4,psn-1))) || ("no".equals(s.toLowerCase().substring(psn-3,psn-1))))
 					return false;
 				else
