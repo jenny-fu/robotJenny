@@ -6,6 +6,7 @@ public class ChatbotErik implements Topic {
 	private String goodbyeWord;
 	private String[] neutralResponses;
 	private String[] litTopics; 
+	private String[] interestResponses;
 	//private String[] questionsForMe;
 	private String secretWord;
 	private boolean chatting;
@@ -18,13 +19,29 @@ public class ChatbotErik implements Topic {
 		neutralResponses = temp2;
 		String[] temp3 = {"food", "summer", "weekends"};
 		litTopics = temp3;
+		String[] temp4 = {"Woahhh","Tell me more","Wow!","Im interested"};
+		interestResponses  = temp4;
 		goodbyeWord = "bye";
 		secretWord = "Exo";
 	}
 
 	public boolean isTriggered(String response) {
 		for(int i = 0; i < topics.length; i++) {
-			if(ChatbotMain.findKeyword(response, topics[i], 0) >= 0){
+			if((ChatbotMain.findKeyword(response, topics[i], 0) >= 0)) {
+				topicTrigger = i;
+				return true;
+			}
+			if((ChatbotMain.findKeyword(response, litTopics[i], 0) >= 0)){
+				topicTrigger = i;
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isTriggeredRegularTopics(String response) {
+		for(int i = 0; i < topics.length; i++) {
+			if((ChatbotMain.findKeyword(response, topics[i], 0) >= 0)){
 				topicTrigger = i;
 				return true;
 			}
@@ -32,20 +49,30 @@ public class ChatbotErik implements Topic {
 		return false;
 	}
 
+	public boolean isTriggeredLitTopics(String response) {
+		for(int i = 0; i < litTopics.length; i++) {
+			if(ChatbotMain.findKeyword(response, litTopics[i], 0) >= 0){
+				topicTrigger = i;
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void startChatting(String response) {
-		ChatbotMain.print("Let's talk some more about " + topics[topicTrigger] + "!");
-		if(topicTrigger <= topics.length - 5) {
-			ChatbotMain.print("What is your favorite kind of " + topics[topicTrigger] + "?");
-		}
-		if(topicTrigger >= topics.length - 4) {
-			ChatbotMain.print("What about " + topics[topicTrigger] + "?");
-		}
+		ChatbotMain.print("Let's talk some more about that!");
 		chatting = true;
 		while(chatting) {
 			int stayOnTopic = topicTrigger;
 			response = ChatbotMain.getInput();
-			
-			
+			if(isTriggeredRegularTopics(response)) {
+				int randomIndex = (int) Math.floor(Math.random()*neutralResponses.length);
+				ChatbotMain.print(neutralResponses[randomIndex]);
+			}
+			if(isTriggeredLitTopics(response)) {
+				int randomIndex = (int) Math.floor(Math.random()*neutralResponses.length);
+				ChatbotMain.print(interestResponses[randomIndex]);
+			}
 			
 			if(stayOnTopic == topicTrigger) {
 				int randomIndex = (int) Math.floor(Math.random()*neutralResponses.length);
@@ -56,7 +83,7 @@ public class ChatbotErik implements Topic {
 				ChatbotMain.chatbot.startTalking();
 			}else if(ChatbotMain.findKeyword(response, secretWord, 0) >= 0) {
 				ChatbotMain.print("Oh my goodness! You guessed my favorite things ever. We are friends now.");
-			}else if((isTriggered(response))){
+			}else{
 				ChatbotMain.print("Huh, I don't really get you. Tell me something else?");
 			}
 		}
