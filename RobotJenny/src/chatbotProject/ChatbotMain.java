@@ -52,13 +52,16 @@ public class ChatbotMain {
 	  }
 	  
 	  public static boolean noNegations(String s, int psn){
-	    if(psn == 0)
-	    	return true;
-	    else if(s.substring(psn - 4, psn - 1).equals("not"))
-	    	return false;
-	    else
-	    	return true;
-	  }
+			if(psn == 0) {
+				return true;
+			}
+			else {
+				if(("not".equals(s.toLowerCase().substring(psn-4,psn-1))) || ("no".equals(s.toLowerCase().substring(psn-3,psn-1))))
+					return false;
+				else
+					return true;
+			}
+		}
 	  
 	  
 	  public static String getInput(){
