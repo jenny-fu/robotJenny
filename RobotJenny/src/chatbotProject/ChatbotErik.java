@@ -12,13 +12,14 @@ public class ChatbotErik implements Topic {
 	private int topicTrigger;
 	
 	public ChatbotErik() {
-		String[] temp = {"food","entertainment","video games","hobby", "sport","life","anything","interests","internet"};
+		String[] temp = {"entertainment","video games","hobby", "sport","life","anything","interests","internet"};
 		topics = temp;
-		String[] temp3 = {};
 		String[] temp2 = {"okay","that's cool","oh, really","mhmm","uh-huh"};
 		neutralResponses = temp2;
+		String[] temp3 = {"food", "summer", "weekends"};
+		litTopics = temp3;
 		goodbyeWord = "bye";
-		secretWord = "pie";
+		secretWord = "Exo";
 	}
 
 	public boolean isTriggered(String response) {
