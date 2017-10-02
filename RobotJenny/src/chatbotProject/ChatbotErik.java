@@ -6,9 +6,10 @@ public class ChatbotErik implements Topic {
 	private String goodbyeWord;
 	private String secretWord;
 	private boolean chatting;
+	private int topicTrigger;
 	
 	public ChatbotErik() {
-		String[] temp = {"food","entertainment","internet","video games"};
+		String[] temp = {"food","entertainment","internet","video games","life","anything","interests"};
 		keywords = temp;
 		goodbyeWord = "bye";
 		secretWord = "pie";
@@ -17,6 +18,7 @@ public class ChatbotErik implements Topic {
 	public boolean isTriggered(String response) {
 		for(int i = 0; i < keywords.length; i++) {
 			if(ChatbotMain.findKeyword(response, keywords[i], 0) >= 0){
+				topicTrigger = i;
 				return true;
 			}
 		}
@@ -24,16 +26,20 @@ public class ChatbotErik implements Topic {
 	}
 
 	public void startChatting(String response) {
-		ChatbotMain.print("Hey! It sounds like you and I have a common interest! Let's talk some more!");
+		ChatbotMain.print("Let's talk some more about " + keywords[topicTrigger] + "!");
 		chatting = true;
 		while(chatting) {
 			response = ChatbotMain.getInput();
+			/*
+			if(!(keywords.length == 0)){
+				int getRandomIndex = (int) Math.floor(Math.random()*keywords.length);
+			*/	
 			if(ChatbotMain.findKeyword(response, goodbyeWord, 0) >= 0) {
 				chatting = false;
 				ChatbotMain.chatbot.startTalking();
 			}else if(ChatbotMain.findKeyword(response, secretWord, 0) >= 0) {
 				ChatbotMain.print("Oh my goodness! You guessed my favorite things ever. We are friends now.");
-			}else {
+			}else{
 				ChatbotMain.print("Huh, I don't really get you. Tell me something else?");
 			}
 		}
