@@ -10,6 +10,7 @@ public class ChatbotSam implements Topic{
 	private String goodbyeWord;
 	private String secretWord;
 	private boolean chatting;
+	private int complimentScore;
 	
 	public ChatbotSam() {
 		String[] temp = {"pretty", "beautiful", "gorgeous", "sexy", "ugly", "fat", "disgusting","hideous", "you", "cute","lovely"};
@@ -24,6 +25,7 @@ public class ChatbotSam implements Topic{
 		insultReplies = temp5;
 		goodbyeWord = "bye";
 		secretWord = "exo";
+		complimentScore = 0;
 	}
 	public boolean isTriggered(String response) {
 		for(int i = 0; i < keywords.length; i++) {
@@ -49,13 +51,20 @@ public class ChatbotSam implements Topic{
 		}
 		return false;
 	}
+	public int getComplimentScore() {
+		return complimentScore;
+	}
 
 	public void startChatting(String response) {
 		ChatbotMain.print("That's an interesting thing to say to me.");
 		chatting = true;
+		String lastResponse = "";
 		while(chatting) {
 			response = ChatbotMain.getInput();
-			if(ChatbotMain.findKeyword(response, goodbyeWord, 0)>=0) {
+			if(lastResponse.toLowerCase().equals(response.toLowerCase())) {
+				ChatbotMain.print("Stop repeating yourself.");
+			}
+			else if(ChatbotMain.findKeyword(response, goodbyeWord, 0)>=0) {
 				chatting = false;
 				ChatbotMain.chatbot.startTalking();
 			}
@@ -65,6 +74,7 @@ public class ChatbotSam implements Topic{
 			else if(isTriggeredCompliments(response)) {
 				int replyNumber = (int) Math.round(Math.random()*(complimentReplies.length-1));
 				ChatbotMain.print(complimentReplies[replyNumber]);
+				complimentScore++;
 				if(replyNumber == 5) {
 					response = ChatbotMain.getInput();
 					if(ChatbotMain.findKeyword(response, "yes", 0) >=0) {
@@ -79,11 +89,12 @@ public class ChatbotSam implements Topic{
 			else if(isTriggeredInsults(response)) {
 				int replyNumber = (int) Math.round(Math.random()*(insultReplies.length-1));
 				ChatbotMain.print(insultReplies[replyNumber]);
+				complimentScore = complimentScore - 3;
 			}
 			else {
 				ChatbotMain.print("Huh. I don't really get you. Tell me something else");
 			}
-			String lastResponse = response;
+			lastResponse = response;
 		}
 	}
 
