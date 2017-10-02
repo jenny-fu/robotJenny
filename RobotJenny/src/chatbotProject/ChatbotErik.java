@@ -2,22 +2,28 @@ package chatbotProject;
 
 public class ChatbotErik implements Topic {
 
-	private String[] keywords;
+	private String[] topics;
 	private String goodbyeWord;
+	private String[] neutralResponses;
+	private String[] litTopics; 
+	//private String[] questionsForMe;
 	private String secretWord;
 	private boolean chatting;
 	private int topicTrigger;
 	
 	public ChatbotErik() {
-		String[] temp = {"food","entertainment","internet","video games","life","anything","interests"};
-		keywords = temp;
+		String[] temp = {"food","entertainment","video games","hobby", "sport","life","anything","interests","internet"};
+		topics = temp;
+		String[] temp3 = {};
+		String[] temp2 = {"okay","that's cool","oh, really","mhmm","uh-huh"};
+		neutralResponses = temp2;
 		goodbyeWord = "bye";
 		secretWord = "pie";
 	}
 
 	public boolean isTriggered(String response) {
-		for(int i = 0; i < keywords.length; i++) {
-			if(ChatbotMain.findKeyword(response, keywords[i], 0) >= 0){
+		for(int i = 0; i < topics.length; i++) {
+			if(ChatbotMain.findKeyword(response, topics[i], 0) >= 0){
 				topicTrigger = i;
 				return true;
 			}
@@ -26,20 +32,30 @@ public class ChatbotErik implements Topic {
 	}
 
 	public void startChatting(String response) {
-		ChatbotMain.print("Let's talk some more about " + keywords[topicTrigger] + "!");
+		ChatbotMain.print("Let's talk some more about " + topics[topicTrigger] + "!");
+		if(topicTrigger <= topics.length - 5) {
+			ChatbotMain.print("What is your favorite kind of " + topics[topicTrigger] + "?");
+		}
+		if(topicTrigger >= topics.length - 4) {
+			ChatbotMain.print("What about " + topics[topicTrigger] + "?");
+		}
 		chatting = true;
 		while(chatting) {
+			int stayOnTopic = topicTrigger;
 			response = ChatbotMain.getInput();
-			/*
-			if(!(keywords.length == 0)){
-				int getRandomIndex = (int) Math.floor(Math.random()*keywords.length);
-			*/	
+			
+			
+			
+			if(stayOnTopic == topicTrigger) {
+				int randomIndex = (int) Math.floor(Math.random()*neutralResponses.length);
+				ChatbotMain.print(neutralResponses[randomIndex]);
+			}
 			if(ChatbotMain.findKeyword(response, goodbyeWord, 0) >= 0) {
 				chatting = false;
 				ChatbotMain.chatbot.startTalking();
 			}else if(ChatbotMain.findKeyword(response, secretWord, 0) >= 0) {
 				ChatbotMain.print("Oh my goodness! You guessed my favorite things ever. We are friends now.");
-			}else{
+			}else if((isTriggered(response))){
 				ChatbotMain.print("Huh, I don't really get you. Tell me something else?");
 			}
 		}
