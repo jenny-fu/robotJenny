@@ -10,7 +10,7 @@ public class ChatbotJenny implements Topic {
 	private boolean chatting;
 
 	public ChatbotJenny() {
-		String[] temp = {"date", "free", "hang out"}; //girlfriend
+		String[] temp = {"date", "free", "hang out", "dating"}; //girlfriend
 		String[] temp3 = {"why not", "why", "why don't", "how come"};
 		String[] temp4 = {"I have a lot of homework today.", "I have work.", "I have some family business I need to go to."};
 		keywords = temp;
@@ -41,7 +41,7 @@ public class ChatbotJenny implements Topic {
 		while(chatting) {
 			response = ChatbotMain.getInput();
 			if(questioned(response)) {
-				int idx = (int) Math.floor(Math.random() * reject.length);
+				int idx = (int) Math.floor(Math.random() * excuse.length);
 				ChatbotMain.print(excuse[idx]);
 			}else
 				if(ChatbotMain.findKeyword(response, goodbyeWord, 0) >= 0) {
