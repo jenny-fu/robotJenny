@@ -68,16 +68,15 @@ public class ChatbotErik implements Topic {
 			if(isTriggeredRegularTopics(response)) {
 				int randomIndex = (int) Math.floor(Math.random()*neutralResponses.length);
 				ChatbotMain.print(neutralResponses[randomIndex]);
-			}
+			}else
 			if(isTriggeredLitTopics(response)) {
 				int randomIndex = (int) Math.floor(Math.random()*neutralResponses.length);
 				ChatbotMain.print(interestResponses[randomIndex]);
-			}
-			
+			}else
 			if(stayOnTopic == topicTrigger) {
 				int randomIndex = (int) Math.floor(Math.random()*neutralResponses.length);
 				ChatbotMain.print(neutralResponses[randomIndex]);
-			}
+			}else
 			if(ChatbotMain.findKeyword(response, goodbyeWord, 0) >= 0) {
 				chatting = false;
 				ChatbotMain.chatbot.startTalking();
