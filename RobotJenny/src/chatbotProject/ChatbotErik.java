@@ -15,7 +15,7 @@ public class ChatbotErik implements Topic {
 	public ChatbotErik() {
 		String[] temp = {"entertainment","video games","hobby", "sport","life","anything","interests","internet"};
 		topics = temp;
-		String[] temp2 = {"okay","that's cool","oh, really","mhmm","uh-huh"};
+		String[] temp2 = {"okay","that's cool","oh, really","mhmm","uh-huh", "im totally paying attention to you", "woahhhh -snores-"};
 		neutralResponses = temp2;
 		String[] temp3 = {"food", "summer", "weekends"};
 		litTopics = temp3;
