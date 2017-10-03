@@ -87,14 +87,6 @@ public class ChatbotSam implements Topic{
 					}
 				}
 			}
-			else if(ChatbotErik.isTriggered(response)) {
-				chatting = false;
-				ChatbotErik.startChatting(response);
-			}
-			else if(jenny1.isTriggered(response)) {
-				chatting = false;
-				jenny1.startChatting(response);
-			}
 			else if(ChatbotMain.findKeyword(response, goodbyeWord, 0)>=0) {
 				chatting = false;
 				ChatbotMain.chatbot.startTalkingAgain();
