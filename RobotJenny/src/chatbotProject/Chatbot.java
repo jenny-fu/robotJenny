@@ -17,7 +17,7 @@ public class Chatbot {
 	}
 
 	public void startTalking() {
-		ChatbotMain.print("Welcome to our chatbot! What is your name?");
+		ChatbotMain.print("Hi my name is Jenny! Glad to meet you, what is your name?");
 		userName = ChatbotMain.getInput();
 		chatting = true;
 		while(chatting) {

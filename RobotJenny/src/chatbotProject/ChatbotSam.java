@@ -11,7 +11,7 @@ public class ChatbotSam implements Topic{
 	private String goodbyeWord;
 	private String secretWord;
 	private boolean chatting;
-	private int complimentScore;
+	private static int complimentScore;
 	private int repeatScore;
 	
 	public ChatbotSam() {
@@ -56,7 +56,7 @@ public class ChatbotSam implements Topic{
 		}
 		return false;
 	}
-	public int getComplimentScore() {
+	public static int getComplimentScore() {
 		return complimentScore;
 	}
 
