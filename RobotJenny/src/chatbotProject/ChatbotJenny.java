@@ -53,7 +53,7 @@ public class ChatbotJenny implements Topic {
 			if(ChatbotMain.findKeyword(response, question[i], 0) >= 0) {
 				return true;
 			}
-		}	
+		}	 
 		return false;
 	}
 
