@@ -7,10 +7,12 @@ public class ChatbotSam implements Topic{
 	private String[] insults;
 	private String[] complimentReplies;
 	private String[] insultReplies;
+	private String[] repeatReplies;
 	private String goodbyeWord;
 	private String secretWord;
 	private boolean chatting;
 	private int complimentScore;
+	private int repeatScore;
 	
 	public ChatbotSam() {
 		String[] temp = {"pretty", "beautiful", "gorgeous", "sexy", "ugly", "fat", "disgusting","hideous", "you", "cute","lovely"};
@@ -23,9 +25,12 @@ public class ChatbotSam implements Topic{
 		complimentReplies = temp4;
 		String[] temp5 = {"Deadass b.", "Say that again and see what happens.","Don't talk so bad about yourself.","So rude!","You jerk!", "Ay watch your mouth before I smack you aight."};
 		insultReplies = temp5;
+		String[] temp6 = {"Seriously stop saying that.", "Is that all you can say.", "I'm tired of hearing you say that.", "Boring.",};
+		repeatReplies = temp6;
 		goodbyeWord = "bye";
 		secretWord = "exo";
 		complimentScore = 0;
+		repeatScore = 0;
 	}
 	public boolean isTriggered(String response) {
 		for(int i = 0; i < keywords.length; i++) {
@@ -62,19 +67,40 @@ public class ChatbotSam implements Topic{
 		while(chatting) {
 			response = ChatbotMain.getInput();
 			if(lastResponse.toLowerCase().equals(response.toLowerCase())) {
-				ChatbotMain.print("Stop repeating yourself.");
+				ChatbotMain.print("You said that already.");
+				repeatScore++;
+				while(repeatScore > 0) {
+					if(repeatScore > 5) {
+						ChatbotMain.print("I'll wait for you to say something else.");
+					}
+					else if(repeatScore > 1) {
+						int repeatReplyNumber = (int) Math.round(Math.random()*(repeatReplies.length-1));
+						ChatbotMain.print(repeatReplies[repeatReplyNumber]);
+					}
+					response = ChatbotMain.getInput();
+					if(lastResponse.toLowerCase().equals(response.toLowerCase())) {
+						repeatScore++;
+					}
+					else {
+						repeatScore= 0;
+						ChatbotMain.print("You finally said something else.");
+					}
+				}
 			}
 			else if(ChatbotMain.findKeyword(response, goodbyeWord, 0)>=0) {
 				chatting = false;
 				ChatbotMain.chatbot.startTalking();
+				repeatScore = 0;
 			}
 			else if(ChatbotMain.findKeyword(response, secretWord, 0)>=0) {
-				ChatbotMain.print("Oh my goodness! You guessed my favorite thing ever. We are friends now.");	
+				ChatbotMain.print("Oh my goodness! You guessed my favorite thing ever. We are friends now.");
+				repeatScore = 0;
 			}
 			else if(isTriggeredCompliments(response)) {
 				int replyNumber = (int) Math.round(Math.random()*(complimentReplies.length-1));
 				ChatbotMain.print(complimentReplies[replyNumber]);
 				complimentScore++;
+				repeatScore = 0;
 				if(replyNumber == 5) {
 					response = ChatbotMain.getInput();
 					if(ChatbotMain.findKeyword(response, "yes", 0) >=0) {
@@ -90,9 +116,11 @@ public class ChatbotSam implements Topic{
 				int replyNumber = (int) Math.round(Math.random()*(insultReplies.length-1));
 				ChatbotMain.print(insultReplies[replyNumber]);
 				complimentScore = complimentScore - 3;
+				repeatScore = 0;
 			}
 			else {
 				ChatbotMain.print("Huh. I don't really get you. Tell me something else");
+				repeatScore = 0;
 			}
 			lastResponse = response;
 		}
