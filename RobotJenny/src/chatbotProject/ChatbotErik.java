@@ -181,13 +181,18 @@ public class ChatbotErik implements Topic {
 					aweTopics = false;
 					forceChange = true;
 				}
-			}else if(stayOnTopic != topicTrigger || forceChange) {
+			}else if(stayOnTopic != topicTrigger) {
 				lastResponse = response;
 				numberOfRepeat = 0;
 				forceChange = false;
 				numberOfNeutral = 0;
 				numberOfInterest = 0;
+				regTopics = false;
+				aweTopics = false;
 				ChatbotMain.chatbot.startTalkingAgain();
+			}else if(forceChange) {
+				lastResponse = response;
+				ChatbotMain.print("Sorry, but is this going to take any longer? I am getting bored of you. Tell me something else.");
 			}else if(!regTopics && !aweTopics && numberOfRepeat > 4){
 				numberOfRepeat = 0;
 				ChatbotMain.print("Im bringing you back to talk about something else.");
@@ -195,7 +200,7 @@ public class ChatbotErik implements Topic {
 			}else
 			{
 				lastResponse = response;
-				ChatbotMain.print("Tell me something else please.");
+				ChatbotMain.print("Tell me something else please. Like any other topic.");
 			}
 		}
 	}
