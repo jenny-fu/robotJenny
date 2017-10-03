@@ -9,6 +9,9 @@ public class ChatbotErik implements Topic {
 	private String[] interestResponses;
 	private boolean aweTopics = false;
 	private String[] repeatResponses;
+	private String[] jokeResponses;
+	private String[] jokeTriggers;
+	private String[] jokeAnswers;
 	//private String[] questionsForMe;
 	private String[] goodbyeWords;
 	private String secretWord;
@@ -17,11 +20,8 @@ public class ChatbotErik implements Topic {
 	private boolean angry = false;
 	private boolean flirty = false;
 	private String lastResponse = "";
-	private Topic jenny3;
-	private Topic sam3;
-	
-	
-	
+
+
 	public ChatbotErik() {
 		String[] temp = {"entertainment","video games","hobby", "sport","life","anything","interests","internet"};
 		topics = temp;
@@ -33,6 +33,13 @@ public class ChatbotErik implements Topic {
 		interestResponses  = temp4;
 		String[] temp5 = {"You're being annoying.","Is that all you can say?","Such extensive vocabulary","Are you having fun?"};
 		repeatResponses = temp5;
+		String[] temp6 = {""};
+		jokeResponses = temp6;
+		String[] temp7 = {"Tell me a joke", "know any jokes","a joke"};
+		jokeTriggers = temp7;
+		String[]temp8 = {""};
+		jokeAnswers = temp8;
+		
 		String[] goodbyeStrings = {"bye", "goodbye", "see you later"};
 		goodbyeWords = goodbyeStrings;
 		secretWord = "Exo";
@@ -57,7 +64,7 @@ public class ChatbotErik implements Topic {
 		}
 		return false;
 	}
-	
+
 	public boolean isTriggeredRegularTopics(String response) {
 		for(int i = 0; i < topics.length; i++) {
 			if((ChatbotMain.findKeyword(response, topics[i], 0) >= 0)){
@@ -77,7 +84,7 @@ public class ChatbotErik implements Topic {
 		}
 		return false;
 	}
-	
+
 	public boolean isTriggeredGoodbye(String response) {
 		for(int i = 0; i < goodbyeWords.length; i++) {
 			if(ChatbotMain.findKeyword(response, goodbyeWords[i], 0) >= 0){
@@ -86,6 +93,16 @@ public class ChatbotErik implements Topic {
 		}
 		return false;
 	}
+
+	public boolean isTriggeredJokes(String response) {
+		for(int i = 0; i < goodbyeWords.length; i++) {
+			if(ChatbotMain.findKeyword(response, goodbyeWords[i], 0) >= 0){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	public void startChatting(String response) {
 		String topic = "";
@@ -124,27 +141,27 @@ public class ChatbotErik implements Topic {
 					ChatbotMain.print(repeatResponses[randomIndex]);
 				} else {
 					ChatbotMain.print("Why are you repeating yourself?");
-					}
-				} else if(ChatbotMain.chatbot.getSam().isTriggered(response)) {
-					ChatbotMain.chatbot.getSam().startChatting(response);
 				}
-				else if(ChatbotMain.chatbot.getJenny().isTriggered(response)) {
-					ChatbotMain.chatbot.getJenny().startChatting(response);
-				} else
-				
-					
+			} else if(ChatbotMain.chatbot.getSam().isTriggered(response)) {
+				ChatbotMain.chatbot.getSam().startChatting(response);
+			}
+			else if(ChatbotMain.chatbot.getJenny().isTriggered(response)) {
+				ChatbotMain.chatbot.getJenny().startChatting(response);
+			} else
+
+
 				for(int i = 0; i < topics.length; i++) {
 					if(ChatbotMain.findKeyword(response, topics[i], 0) >= 0){
 						topicTrigger = i;
-						}
 					}
-					for(int i = 0; i < litTopics.length; i++) {
-						if(ChatbotMain.findKeyword(response, litTopics[i], 0) >= 0){
-							topicTrigger = i;
-						}
-					}		
-					
-				if(regTopics && topicTrigger == stayOnTopic) {
+				}
+			for(int i = 0; i < litTopics.length; i++) {
+				if(ChatbotMain.findKeyword(response, litTopics[i], 0) >= 0){
+					topicTrigger = i;
+				}
+			}		
+
+			if(regTopics && topicTrigger == stayOnTopic) {
 				lastResponse = response;
 				numberOfRepeat = 0;
 				randomIndex = (int) Math.floor(Math.random()*neutralResponses.length);
@@ -171,16 +188,17 @@ public class ChatbotErik implements Topic {
 				numberOfNeutral = 0;
 				numberOfInterest = 0;
 				ChatbotMain.chatbot.startTalkingAgain();
-			}else if(!regTopics || !aweTopics){
-				numberOfNeutral = 0;
+			}else if(!regTopics && !aweTopics && numberOfRepeat > 4){
+				numberOfRepeat = 0;
 				ChatbotMain.print("Im bringing you back to talk about something else.");
 				ChatbotMain.chatbot.startTalkingAgain();
 			}else
 			{
+				lastResponse = response;
 				ChatbotMain.print("Tell me something else please.");
 			}
 		}
 	}
 
-	
+
 }
