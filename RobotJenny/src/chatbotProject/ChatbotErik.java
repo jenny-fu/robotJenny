@@ -176,7 +176,7 @@ public class ChatbotErik implements Topic {
 				ChatbotMain.chatbot.startTalkingAgain();
 			}else
 			{
-				ChatbotMain.print("Huh, I don't really get you. Tell me something else?");
+				ChatbotMain.print("Tell me something else please.");
 			}
 		}
 	}
