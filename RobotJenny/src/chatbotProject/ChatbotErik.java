@@ -172,6 +172,7 @@ public class ChatbotErik implements Topic {
 				numberOfInterest = 0;
 				ChatbotMain.chatbot.startTalkingAgain();
 			}else if(!regTopics || !aweTopics){
+				numberOfNeutral = 0;
 				ChatbotMain.print("Im bringing you back to talk about something else.");
 				ChatbotMain.chatbot.startTalkingAgain();
 			}else
