@@ -1,7 +1,7 @@
 package chatbotProject;
 
 public class ChatbotJenny implements Topic {
-	
+
 	private String[] date;
 	private String[] question;
 	private String[] excuse;
@@ -30,6 +30,15 @@ public class ChatbotJenny implements Topic {
 	}
 
 	public boolean isTriggered(String response) {
+		if(askedOut(response))
+			return true;
+		else
+			if(confessed(response))
+				return true;
+		return false;
+	}
+
+	public boolean askedOut(String response){
 		for(int i = 0; i < date.length; i++) {
 			if(ChatbotMain.findKeyword(response, date[i], 0) >= 0) {
 				askDate = true;
@@ -37,17 +46,8 @@ public class ChatbotJenny implements Topic {
 				return true;
 			}
 		}
-		
-		for(int j = 0; j < confessions.length; j++) {
-			if(ChatbotMain.findKeyword(response, confessions[j], 0) >= 0) {
-				confess = true;
-				askDate = false;
-				return true;
-			}
-		}
 		return false;
 	}
-	
 	public boolean questioned(String response) {
 		for(int i = 0; i < question.length; i++) {
 			if(ChatbotMain.findKeyword(response, question[i], 0) >= 0) {
@@ -56,16 +56,18 @@ public class ChatbotJenny implements Topic {
 		}	
 		return false;
 	}
-	
+
 	public boolean confessed(String response) {
 		for(int i = 0; i < confessions.length; i++) {
 			if(ChatbotMain.findKeyword(response, confessions[i], 0) >= 0) {
+				confess = true;
+				askDate = false;
 				return true;
 			}
 		}	
 		return false;
 	}
-//getComplimentScore 8-11;
+	//getComplimentScore 8-11;
 	public void startChatting(String response) {
 		for(int j = 0; j < confessions.length; j++) {
 			if(ChatbotMain.findKeyword(response, confessions[j], 0) >= 0)
@@ -100,11 +102,11 @@ public class ChatbotJenny implements Topic {
 								ChatbotMain.print("OMG that's my favorite thing ever! Are you free this week?");
 								accepted = true;
 								while(accepted) {
-			///////////////////////////////////////////////////////////////////						
+									///////////////////////////////////////////////////////////////////						
 								}
 							}else
 								ChatbotMain.print("Huh. I don't really get you. Tell me something else.");
-			}
+		}
 	}
 
 }
