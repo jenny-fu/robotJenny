@@ -9,9 +9,9 @@ public class Chatbot {
 	private boolean chatting;
 
 	public Chatbot() {
-		jenny = new ChatbotJenny();
+		setJenny(new ChatbotJenny());
 		sam = new ChatbotSam();
-		erik = new ChatbotErik();
+		setErik(new ChatbotErik());
 		userName = "unknown user";
 		chatting = true;
 	}
@@ -23,17 +23,17 @@ public class Chatbot {
 		while(chatting) {
 			ChatbotMain.print("What do you want to talk about?");
 			String response = ChatbotMain.getInput();
-			if(jenny.isTriggered(response)) {
+			if(getJenny().isTriggered(response)) {
 				chatting = false;
-				jenny.startChatting(response);
+				getJenny().startChatting(response);
 			}
 			else if(sam.isTriggered(response)) {
 					chatting = false;
 					sam.startChatting(response);
 			}
-			else if(erik.isTriggered(response)) {
+			else if(getErik().isTriggered(response)) {
 						chatting = false;
-						erik.startChatting(response);
+						getErik().startChatting(response);
 			}
 			else
 				ChatbotMain.print("I'm sorry. I don't understand.");
@@ -45,21 +45,44 @@ public class Chatbot {
 		while(chatting) {
 			ChatbotMain.print("What do you want to talk about?");
 			String response = ChatbotMain.getInput();
-			if(jenny.isTriggered(response)) {
+			if(getJenny().isTriggered(response)) {
 				chatting = false;
-				jenny.startChatting(response);
+				getJenny().startChatting(response);
 			}
 			else if(sam.isTriggered(response)) {
 					chatting = false;
 					sam.startChatting(response);
 			}
-			else if(erik.isTriggered(response)) {
+			else if(getErik().isTriggered(response)) {
 						chatting = false;
-						erik.startChatting(response);
+						getErik().startChatting(response);
 			}
 			else
 				ChatbotMain.print("I'm sorry. I don't understand.");
 		}
+	}
+
+	public Topic getErik() {
+		return erik;
+	}
+
+	public void setErik(Topic erik) {
+		this.erik = erik;
+	}
+
+	public Topic getJenny() {
+		return jenny;
+	}
+
+	public void setJenny(Topic jenny) {
+		this.jenny = jenny;
+	}
+	public Topic getSam() {
+		return sam;
+	}
+
+	public void setSam(Topic sam) {
+		this.sam = sam;
 	}
 }
 
