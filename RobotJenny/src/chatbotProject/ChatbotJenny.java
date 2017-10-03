@@ -2,13 +2,15 @@ package chatbotProject;
 
 public class ChatbotJenny implements Topic {
 	
-	private String[] keywords;
+	private String[] date;
 	private String[] question;
 	private String[] excuse;
 	private String[] confessions;
 	private String[] reject;
 	private String goodbyeWord;
 	private String secretWord;
+	private boolean askDate;
+	private boolean confess;
 	private boolean accepted;
 	private boolean chatting;
 
@@ -18,7 +20,7 @@ public class ChatbotJenny implements Topic {
 		String[] temp3 = {"why not", "why", "why don't", "how come"};
 		String[] temp4 = {"I have a lot of homework today.", "I have work.", "I have some family business I need to go to."};
 		String[] temp5 = {"Sorry, I don't want to be in a relationship at the moment.", "I am not interested in you.", "I am not looking for a boyfriend right now..."};
-		keywords = temp;
+		date = temp;
 		confessions = temp2;
 		question = temp3;
 		excuse = temp4;
@@ -28,14 +30,20 @@ public class ChatbotJenny implements Topic {
 	}
 
 	public boolean isTriggered(String response) {
-		for(int i = 0; i < keywords.length; i++) {
-			if(ChatbotMain.findKeyword(response, keywords[i], 0) >= 0)
+		for(int i = 0; i < date.length; i++) {
+			if(ChatbotMain.findKeyword(response, date[i], 0) >= 0) {
+				askDate = true;
+				confess = false;
 				return true;
+			}
 		}
 		
 		for(int j = 0; j < confessions.length; j++) {
-			if(ChatbotMain.findKeyword(response, confessions[j], 0) >= 0)
+			if(ChatbotMain.findKeyword(response, confessions[j], 0) >= 0) {
+				confess = true;
+				askDate = false;
 				return true;
+			}
 		}
 		return false;
 	}
@@ -63,34 +71,40 @@ public class ChatbotJenny implements Topic {
 			if(ChatbotMain.findKeyword(response, confessions[j], 0) >= 0)
 				ChatbotMain.print("Oh...");
 		}
-		for(int i = 0; i < keywords.length; i++) {
-			if(ChatbotMain.findKeyword(response, keywords[i], 0) >= 0)
+		for(int i = 0; i < date.length; i++) {
+			if(ChatbotMain.findKeyword(response, date[i], 0) >= 0)
 				ChatbotMain.print("No, sorry.");
 		}
 		chatting = true;
 		while(chatting) {
 			response = ChatbotMain.getInput();
-			if(questioned(response)) {
-				int idx = (int) Math.floor(Math.random() * excuse.length);
-				ChatbotMain.print(excuse[idx]);
+			if(ChatbotMain.chatbot.getErik().isTriggered(response)) {
+				ChatbotMain.chatbot.getErik().startChatting(response);
+			}
+			else if(ChatbotMain.chatbot.getSam().isTriggered(response)) {
+				ChatbotMain.chatbot.getSam().startChatting(response);
 			}else
-				if(confessed(response)) {
-					int index = (int) Math.floor(Math.random() * reject.length);
-					ChatbotMain.print(reject[index]);
+				if(questioned(response)) {
+					int idx = (int) Math.floor(Math.random() * excuse.length);
+					ChatbotMain.print(excuse[idx]);
 				}else
-					if(ChatbotMain.findKeyword(response, goodbyeWord, 0) >= 0) {
-						chatting = false;
-						ChatbotMain.chatbot.startTalkingAgain();
+					if(confessed(response)) {
+						int index = (int) Math.floor(Math.random() * reject.length);
+						ChatbotMain.print(reject[index]);
 					}else
-						if(ChatbotMain.findKeyword(response, secretWord, 0) >= 0) {
-							ChatbotMain.print("OMG that's my favorite thing ever! Are you free this week?");
-							accepted = true;
-							while(accepted) {
-		///////////////////////////////////////////////////////////////////						
-							}
+						if(ChatbotMain.findKeyword(response, goodbyeWord, 0) >= 0) {
+							chatting = false;
+							ChatbotMain.chatbot.startTalkingAgain();
 						}else
-							ChatbotMain.print("Huh. I don't really get you. Tell me something else.");
-		}
+							if(ChatbotMain.findKeyword(response, secretWord, 0) >= 0) {
+								ChatbotMain.print("OMG that's my favorite thing ever! Are you free this week?");
+								accepted = true;
+								while(accepted) {
+			///////////////////////////////////////////////////////////////////						
+								}
+							}else
+								ChatbotMain.print("Huh. I don't really get you. Tell me something else.");
+			}
 	}
 
 }
