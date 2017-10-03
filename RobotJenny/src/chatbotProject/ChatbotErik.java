@@ -33,7 +33,7 @@ public class ChatbotErik implements Topic {
 		interestResponses  = temp4;
 		String[] temp5 = {"You're being annoying.","Is that all you can say?","Such extensive vocabulary","Are you having fun?"};
 		repeatResponses = temp5;
-		String[] temp6 = {""};
+		String[] temp6 = {"f"};
 		jokeResponses = temp6;
 		String[] temp7 = {"Tell me a joke", "know any jokes","a joke"};
 		jokeTriggers = temp7;
