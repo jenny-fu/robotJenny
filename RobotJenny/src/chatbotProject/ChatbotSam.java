@@ -13,8 +13,8 @@ public class ChatbotSam implements Topic{
 	private boolean chatting;
 	private static int complimentScore;
 	private int repeatScore;
-	private Topic erik;
-	private Topic jenny;
+	private Topic erik1;
+	private Topic jenny1;
 	
 	public ChatbotSam() {
 		String[] temp = {"pretty", "beautiful", "gorgeous", "sexy", "ugly", "fat", "disgusting","hideous", "you", "cute","lovely"};
@@ -33,8 +33,8 @@ public class ChatbotSam implements Topic{
 		secretWord = "exo";
 		complimentScore = 0;
 		repeatScore = 0;
-		erik = new ChatbotErik();
-		jenny = new ChatbotJenny();
+		erik1 = new ChatbotErik();
+		jenny1 = new ChatbotJenny();
 	}
 	public boolean isTriggered(String response) {
 		for(int i = 0; i < keywords.length; i++) {
@@ -91,13 +91,13 @@ public class ChatbotSam implements Topic{
 					}
 				}
 			}
-			else if(erik.isTriggered(response)) {
+			else if(erik1.isTriggered(response)) {
 				chatting = false;
-				erik.startChatting(response);
+				erik1.startChatting(response);
 			}
-			else if(jenny.isTriggered(response)) {
+			else if(jenny1.isTriggered(response)) {
 				chatting = false;
-				jenny.startChatting(response);
+				jenny1.startChatting(response);
 			}
 			else if(ChatbotMain.findKeyword(response, goodbyeWord, 0)>=0) {
 				chatting = false;
