@@ -3,11 +3,13 @@ package chatbotProject;
 public class ChatbotErik implements Topic {
 
 	private String[] topics;
-	private String goodbyeWord;
 	private String[] neutralResponses;
+	private boolean regTopics = false;
 	private String[] litTopics; 
 	private String[] interestResponses;
+	private boolean aweTopics = false;
 	//private String[] questionsForMe;
+	private String goodbyeWord;
 	private String secretWord;
 	private boolean chatting;
 	private int topicTrigger;
@@ -29,10 +31,14 @@ public class ChatbotErik implements Topic {
 		for(int i = 0; i < topics.length; i++) {
 			if((ChatbotMain.findKeyword(response, topics[i], 0) >= 0)) {
 				topicTrigger = i;
+				regTopics = true;
 				return true;
 			}
-			if((ChatbotMain.findKeyword(response, litTopics[i], 0) >= 0)){
-				topicTrigger = i;
+		}
+		for(int j = 0; j < litTopics.length; j++){
+			if((ChatbotMain.findKeyword(response, litTopics[j], 0) >= 0)){
+				topicTrigger = j;
+				aweTopics = true;
 				return true;
 			}
 		}
@@ -60,22 +66,45 @@ public class ChatbotErik implements Topic {
 	}
 	
 	public void startChatting(String response) {
-		ChatbotMain.print("Let's talk some more about that!");
+		String topic = "";
+		int numberOfNeutral = 0;
+		int numberOfInterest = 0;
+		boolean forceChange = false;
+		if(regTopics) {
+			topic = topics[topicTrigger];
+		}
+		if(aweTopics) {
+			topic = litTopics[topicTrigger];
+		}
+		ChatbotMain.print("Let's talk some more about that! What about " + topic + "?");
 		chatting = true;
 		while(chatting) {
 			int stayOnTopic = topicTrigger;
 			response = ChatbotMain.getInput();
-			if(isTriggeredRegularTopics(response)) {
+			if(regTopics && topicTrigger == stayOnTopic) {
 				int randomIndex = (int) Math.floor(Math.random()*neutralResponses.length);
 				ChatbotMain.print(neutralResponses[randomIndex]);
+				numberOfNeutral++;
+				if(numberOfNeutral > 5) {
+					regTopics = false;
+					forceChange = true;
+				}
 			}else
-			if(isTriggeredLitTopics(response)) {
-				int randomIndex = (int) Math.floor(Math.random()*neutralResponses.length);
+			if(aweTopics && topicTrigger == stayOnTopic) {
+				int randomIndex = (int) Math.floor(Math.random()*interestResponses.length);
 				ChatbotMain.print(interestResponses[randomIndex]);
+				numberOfInterest++;
+				if(numberOfInterest > 5) {
+					aweTopics = false;
+					forceChange = true;
+				}
 			}else
-			if(stayOnTopic == topicTrigger) {
-				int randomIndex = (int) Math.floor(Math.random()*neutralResponses.length);
-				ChatbotMain.print(neutralResponses[randomIndex]);
+			if(stayOnTopic != topicTrigger || forceChange) {
+				forceChange = false;
+				numberOfNeutral = 0;
+				numberOfInterest = 0;
+				ChatbotMain.print("Would you like to talk about something else?");
+				isTriggered(response);
 			}else
 			if(ChatbotMain.findKeyword(response, goodbyeWord, 0) >= 0) {
 				chatting = false;
