@@ -11,8 +11,6 @@ public class ChatbotJenny implements Topic {
 	private String secretWord;
 	private boolean accepted;
 	private boolean chatting;
-	private Topic erik2;
-	private Topic sam2;
 
 	public ChatbotJenny() {
 		String[] temp = {"date", "free", "hang out", "dating"};
@@ -27,8 +25,6 @@ public class ChatbotJenny implements Topic {
 		reject = temp5;
 		goodbyeWord = "bye";
 		secretWord = "EXO";
-		erik2 = new ChatbotErik();
-		sam2 = new ChatbotSam();
 	}
 
 	public boolean isTriggered(String response) {
@@ -74,14 +70,6 @@ public class ChatbotJenny implements Topic {
 		chatting = true;
 		while(chatting) {
 			response = ChatbotMain.getInput();
-			if(erik2.isTriggered(response)) {
-				chatting = false;
-				erik2.startChatting(response);
-			}
-			else if(sam2.isTriggered(response)) {
-				chatting = false;
-				sam2.startChatting(response);
-			}else
 			if(questioned(response)) {
 				int idx = (int) Math.floor(Math.random() * excuse.length);
 				ChatbotMain.print(excuse[idx]);
