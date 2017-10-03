@@ -53,7 +53,7 @@ public class ChatbotJenny implements Topic {
 			if(ChatbotMain.findKeyword(response, question[i], 0) >= 0) {
 				return true;
 			}
-		}	
+		}	 
 		return false;
 	}
 
@@ -85,6 +85,10 @@ public class ChatbotJenny implements Topic {
 			}
 			else if(ChatbotMain.chatbot.getSam().isTriggered(response)) {
 				ChatbotMain.chatbot.getSam().startChatting(response);
+			}else if(ChatbotSam.getComplimentScore() == 8 && askDate) {
+
+			}else if(ChatbotSam.getComplimentScore() == 11 && confess) {
+
 			}else
 				if(questioned(response)) {
 					int idx = (int) Math.floor(Math.random() * excuse.length);
