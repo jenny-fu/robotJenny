@@ -15,15 +15,15 @@ public class ChatbotSam implements Topic{
 	private int repeatScore;
 	
 	public ChatbotSam() {
-		String[] temp = {"pretty", "beautiful", "gorgeous", "sexy", "ugly", "fat", "disgusting","hideous", "cute","lovely"};
+		String[] temp = {"pretty", "beautiful", "gorgeous", "sexy", "ugly", "fat", "disgusting","hideous", "cute","lovely", "amazing", "nice", "kind", "smart"};
 		keywords = temp;
 		String[] temp2 = {"pretty", "beautiful", "gorgeous", "sexy", "cute", "lovely", "amazing", "nice", "kind", "smart",};
 		compliments = temp2;
-		String[] temp3 = {"ugly", "fat", "disgusting", "hideous","nasty"};
+		String[] temp3 = {"ugly", "fat", "disgusting", "hideous","nasty","dumb","stupid","idiot","cheese"};
 		insults = temp3;
 		String[] temp4 = {"Aw, thank you so much!", "You're so sweet!", "Stop it, I'm blushing!", "Keep on complimenting me please.", "You wouldn't mind saying that again would you?","Do you mean it?"};
 		complimentReplies = temp4;
-		String[] temp5 = {"Deadass b.", "Say that again and see what happens.","Don't talk so bad about yourself.","So rude!","You jerk!", "Ay watch your mouth before I smack you aight."};
+		String[] temp5 = {"Deadass b.", "Say that again and see what happens.","Don't talk so bad about yourself.","So rude!","You jerk!", "Ay watch your mouth before I smack you aight.","I know you are but what am I"};
 		insultReplies = temp5;
 		String[] temp6 = {"Seriously stop saying that.", "Is that all you can say.", "I'm tired of hearing you say that.", "Boring.",};
 		repeatReplies = temp6;
