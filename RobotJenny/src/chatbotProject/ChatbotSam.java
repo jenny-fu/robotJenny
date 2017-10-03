@@ -15,7 +15,7 @@ public class ChatbotSam implements Topic{
 	private int repeatScore;
 	
 	public ChatbotSam() {
-		String[] temp = {"pretty", "beautiful", "gorgeous", "sexy", "ugly", "fat", "disgusting","hideous", "you", "cute","lovely"};
+		String[] temp = {"pretty", "beautiful", "gorgeous", "sexy", "ugly", "fat", "disgusting","hideous", "cute","lovely"};
 		keywords = temp;
 		String[] temp2 = {"pretty", "beautiful", "gorgeous", "sexy", "cute", "lovely", "amazing", "nice", "kind", "smart",};
 		compliments = temp2;
