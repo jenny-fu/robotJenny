@@ -29,7 +29,7 @@ public class ChatbotSam implements Topic{
 		complimentReplies = temp4;
 		String[] temp5 = {"Deadass b.", "Say that again and see what happens.","Don't talk so bad about yourself.","So rude!","You jerk!", "Ay watch your mouth before I smack you aight.","I know you are but what am I"};
 		insultReplies = temp5;
-		String[] temp6 = {"Seriously stop saying that.", "Is that all you can say.", "I'm tired of hearing you say that.", "Boring.",};
+		String[] temp6 = {"Seriously stop saying that.", "Is that all you can say.", "I'm tired of hearing you say that.", "Boring."};
 		repeatReplies = temp6;
 		goodbyeWord = "bye";
 		secretWord = "exo";
