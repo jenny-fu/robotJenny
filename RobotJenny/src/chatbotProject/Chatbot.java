@@ -3,25 +3,26 @@ package chatbotProject;
 
 public class Chatbot {
 	private String userName;
+	private String user;
 	private Topic jenny;
 	private Topic sam;
 	private Topic erik;
 	private boolean chatting;
 
 	public Chatbot() {
-		setJenny(new ChatbotJenny());
+		jenny = new ChatbotJenny();
 		sam = new ChatbotSam();
-		setErik(new ChatbotErik());
-		userName = "unknown user";
+		erik = new ChatbotErik();
 		chatting = true;
 	}
 
 	public void startTalking() {
 		ChatbotMain.print("Hi my name is Jenny! What's your name?");
 		userName = ChatbotMain.getInput();
+		user = ChatbotSam.getUser(userName,0);
 		chatting = true;
 		while(chatting) {
-			ChatbotMain.print("What do you want to talk about?");
+			ChatbotMain.print("Hey " + user + " what do you want to talk about?");
 			String response = ChatbotMain.getInput();
 			if(getJenny().isTriggered(response)) {
 				chatting = false;
@@ -65,24 +66,11 @@ public class Chatbot {
 	public Topic getErik() {
 		return erik;
 	}
-
-	public void setErik(Topic erik) {
-		this.erik = erik;
-	}
-
 	public Topic getJenny() {
 		return jenny;
 	}
-
-	public void setJenny(Topic jenny) {
-		this.jenny = jenny;
-	}
 	public Topic getSam() {
 		return sam;
-	}
-
-	public void setSam(Topic sam) {
-		this.sam = sam;
 	}
 }
 

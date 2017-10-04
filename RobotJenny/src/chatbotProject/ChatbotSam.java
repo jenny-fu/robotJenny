@@ -13,15 +13,19 @@ public class ChatbotSam implements Topic{
 	private boolean chatting;
 	private static int complimentScore;
 	private int repeatScore;
+	private int replyNumber;
+	private int lastInsult;
+	private int replyNumber2;
+	private int lastCompliment;
 	
 	public ChatbotSam() {
-		String[] temp = {"pretty", "beautiful", "gorgeous", "sexy", "ugly", "fat", "disgusting","hideous", "cute","lovely", "amazing", "nice", "kind", "smart"};
+		String[] temp = {"pretty", "beautiful", "gorgeous", "sexy", "ugly", "fat", "disgusting","hideous", "cute","lovely", "amazing", "nice", "kind", "smart", "nasty", "dumb", "stupid", "idiot", "cheese", "hate", "hot"};
 		keywords = temp;
-		String[] temp2 = {"pretty", "beautiful", "gorgeous", "sexy", "cute", "lovely", "amazing", "nice", "kind", "smart",};
+		String[] temp2 = {"pretty", "beautiful", "gorgeous", "sexy", "cute", "lovely", "amazing", "nice", "kind", "smart", "hot"};
 		compliments = temp2;
-		String[] temp3 = {"ugly", "fat", "disgusting", "hideous","nasty","dumb","stupid","idiot","cheese"};
+		String[] temp3 = {"ugly", "fat", "disgusting", "hideous","nasty","dumb","stupid","idiot","cheese", "hate"};
 		insults = temp3;
-		String[] temp4 = {"Aw, thank you so much!", "You're so sweet!", "Stop it, I'm blushing!", "Keep on complimenting me please.", "You wouldn't mind saying that again would you?","Do you mean it?"};
+		String[] temp4 = {"Aw, thank you so much!", "You're so sweet!", "Stop it, I'm blushing!", "Keep on complimenting me please.", "You wouldn't mind saying that again would you?", "I know", "Do you mean it?"};
 		complimentReplies = temp4;
 		String[] temp5 = {"Deadass b.", "Say that again and see what happens.","Don't talk so bad about yourself.","So rude!","You jerk!", "Ay watch your mouth before I smack you aight.","I know you are but what am I"};
 		insultReplies = temp5;
@@ -31,6 +35,10 @@ public class ChatbotSam implements Topic{
 		secretWord = "exo";
 		complimentScore = 0;
 		repeatScore = 0;
+		replyNumber = -1;
+		replyNumber2 =-1;
+		lastInsult = -1;
+		lastCompliment = -1;
 	}
 	public boolean isTriggered(String response) {
 		for(int i = 0; i < keywords.length; i++) {
@@ -103,14 +111,16 @@ public class ChatbotSam implements Topic{
 				repeatScore = 0;
 			}
 			else if(isTriggeredCompliments(response)) {
-				int replyNumber = (int) Math.round(Math.random()*(complimentReplies.length-1));
-				ChatbotMain.print(complimentReplies[replyNumber]);
-				complimentScore++;
-				repeatScore = 0;
-				if(replyNumber == 5) {
+				while(replyNumber2 == lastCompliment) {
+					replyNumber2 = (int) Math.round(Math.random()*(complimentReplies.length-2));
+					}
+					ChatbotMain.print(complimentReplies[replyNumber2]);
+					lastCompliment = replyNumber2;
+					repeatScore = 0;
+				if(replyNumber == 6) {
 					response = ChatbotMain.getInput();
 					if(ChatbotMain.findKeyword(response, "yes", 0) >=0) {
-						int replyNumber2 = (int) Math.round(Math.random()*(complimentReplies.length-2));
+						replyNumber2 = (int) Math.round(Math.random()*(complimentReplies.length-2));
 						ChatbotMain.print(complimentReplies[replyNumber2]);
 					}
 					else if(ChatbotMain.findKeyword(response, "no", 0) >=0){
@@ -120,10 +130,18 @@ public class ChatbotSam implements Topic{
 				}
 			}
 			else if(isTriggeredInsults(response)) {
-				int replyNumber = (int) Math.round(Math.random()*(insultReplies.length-1));
-				ChatbotMain.print(insultReplies[replyNumber]);
 				complimentScore = complimentScore - 3;
-				repeatScore = 0;
+				if(ChatbotMain.findKeyword(response, "cheese", 0)>=0) {
+					ChatbotMain.print("Don't ever say cheese around me");
+				}
+				else {
+					while(replyNumber == lastInsult) {
+					replyNumber = (int) Math.round(Math.random()*(insultReplies.length-1));
+					}
+					ChatbotMain.print(insultReplies[replyNumber]);
+					lastInsult = replyNumber;
+					repeatScore = 0;
+				}
 			}
 			else {
 				ChatbotMain.print("Huh. I don't really get you. Tell me something else");
@@ -131,6 +149,16 @@ public class ChatbotSam implements Topic{
 			}
 			lastResponse = response;
 		}
+	}
+	
+	public static String getUser(String input, int startPsn) {
+		if (startPsn == 0 && input.indexOf(" ") == -1){
+			return input;
+		}
+		if(ChatbotMain.findKeyword(input, "name is", 0) >= 0){
+			return input.substring(ChatbotMain.findKeyword(input, "name is", 0)+8);
+		}
+		return input;
 	}
 
 }
