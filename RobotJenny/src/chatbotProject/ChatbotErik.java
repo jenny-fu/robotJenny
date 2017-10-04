@@ -35,7 +35,7 @@ public class ChatbotErik implements Topic {
 		litTopics = temp3;
 		String[] temp4 = {"Woahhh","Tell me more","Wow!","Im interested"};
 		interestResponses  = temp4;
-		String[] temp5 = {"You're being annoying.","Is that all you can say?","Such extensive vocabulary","Are you having fun?"};
+		String[] temp5 = {"You're being annoying.","Is that all you can say?","Such extensive vocabulary","Are you having fun?",};
 		repeatResponses = temp5;
 		String[] temp6 = {"okay cutie", "of course babe",};
 		flirtyResponses = temp6;		
