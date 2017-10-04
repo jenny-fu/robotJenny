@@ -151,6 +151,7 @@ public class ChatbotSam implements Topic{
 					ChatbotMain.print(complimentReplies[replyNumber2]);
 					lastCompliment = replyNumber2;
 					repeatScore = 0;
+					complimentscore++;
 				if(replyNumber == 6) {
 					response = ChatbotMain.getInput();
 					if(ChatbotMain.findKeyword(response, "yes", 0) >=0) {
