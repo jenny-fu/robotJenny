@@ -146,7 +146,7 @@ public class ChatbotErik implements Topic {
 		if(aweTopics) {
 			regTopics = false;
 		}
-		ChatbotMain.print("Let's talk some more about that! What about it?");
+		ChatbotMain.print("Let's talk some more about that! What about it? " + complimentScore);
 		chatting = true;
 		while(chatting) {
 			int stayOnTopic = topicTrigger;
