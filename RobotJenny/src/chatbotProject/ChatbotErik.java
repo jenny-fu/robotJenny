@@ -37,7 +37,7 @@ public class ChatbotErik implements Topic {
 		interestResponses  = temp4;
 		String[] temp5 = {"You're being annoying.","Is that all you can say?","Such extensive vocabulary","Are you having fun?",};
 		repeatResponses = temp5;
-		String[] temp6 = {"okay cutie", "of course babe",};
+		String[] temp6 = {"okay cutie", "of course babe", "sounds lit hon", "thats so funny eksdee"};
 		flirtyResponses = temp6;		
 		String[] temp7 = {"entertainment","video games","sports"};
 		robotDislikes = temp7;
@@ -203,13 +203,13 @@ public class ChatbotErik implements Topic {
 				if(!regTopics && !aweTopics) {
 					lastResponse = response;
 					numberOfRepeat = 0;
-					randomIndex = (int) Math.floor(Math.random()*flirtyResponses.length);
-					ChatbotMain.print(flirtyResponses[randomIndex]);
 					numberOfFlirt++;
 					if(numberOfFlirt > 2) {
-						ChatbotMain.print("Why don't you ask me out already?");
+						ChatbotMain.print("Hey weird thought, but why don't you ask me out already?");
 						ChatbotMain.chatbot.getJenny().startChatting(response);
 					}
+					randomIndex = (int) Math.floor(Math.random()*flirtyResponses.length);
+					ChatbotMain.print(flirtyResponses[randomIndex]);
 				}else if(regTopics && topicTrigger == stayOnTopic) {
 						lastResponse = response;
 						numberOfRepeat = 0;
