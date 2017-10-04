@@ -29,6 +29,8 @@ public class ChatbotJenny implements Topic {
 		goodbyeWord = "bye";
 		secretWord = "EXO";
 		resCount = 0;
+		askDate = false;
+		confess = false;
 	}
 
 	public boolean isTriggered(String response) {
