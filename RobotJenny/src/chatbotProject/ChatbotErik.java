@@ -9,16 +9,19 @@ public class ChatbotErik implements Topic {
 	private String[] interestResponses;
 	private boolean aweTopics = false;
 	private String[] repeatResponses;
-	private String[] jokeResponses;
-	private String[] jokeTriggers;
-	private String[] jokeAnswers;
+	//private String[] jokeResponses;
+	//private String[] jokeTriggers;
+	//private String[] jokeAnswers;
 	//private String[] questionsForMe;
 	private String[] goodbyeWords;
 	private String secretWord;
 	private boolean chatting;
 	private int topicTrigger;
-	private boolean angry = false;
+	//private boolean angry = false;
+	private String[] flirtyResponses;
 	private boolean flirty = false;
+	private int complimentScore;
+	
 	private String lastResponse = "";
 
 
@@ -33,13 +36,18 @@ public class ChatbotErik implements Topic {
 		interestResponses  = temp4;
 		String[] temp5 = {"You're being annoying.","Is that all you can say?","Such extensive vocabulary","Are you having fun?"};
 		repeatResponses = temp5;
-		String[] temp6 = {""};
-		jokeResponses = temp6;
-		String[] temp7 = {"Tell me a joke", "know any jokes","a joke"};
-		jokeTriggers = temp7;
-		String[]temp8 = {""};
-		jokeAnswers = temp8;
+		String[] temp6 = {"okay cutie", "of course babe"};
+		flirtyResponses = temp6;		
 		
+		
+		
+		//String[] temp6 = {""};
+		//jokeResponses = temp6;
+		//String[] temp7 = {"Tell me a joke", "know any jokes","a joke"};
+		//jokeTriggers = temp7;
+		//String[]temp8 = {""};
+		//jokeAnswers = temp8;
+
 		String[] goodbyeStrings = {"bye", "goodbye", "see you later"};
 		goodbyeWords = goodbyeStrings;
 		secretWord = "Exo";
@@ -102,15 +110,25 @@ public class ChatbotErik implements Topic {
 		}
 		return false;
 	}
-	
+
+	public boolean checkFlirty() {
+		if(complimentScore >= 8) {
+			return true;
+		}
+		return false;
+	}
 	
 	public void startChatting(String response) {
-		String topic = "";
+		//String topic = "";
 		int numberOfNeutral = 0;
 		int numberOfInterest = 0;
 		int numberOfRepeat = 0;
+		int numberOfFlirt = 0;
 		int randomIndex = 0;
 		boolean forceChange = false;
+		complimentScore = ChatbotSam.getComplimentScore();
+		flirty = checkFlirty();
+		
 		if(regTopics) {
 			aweTopics = false;
 		}
@@ -122,6 +140,11 @@ public class ChatbotErik implements Topic {
 		while(chatting) {
 			int stayOnTopic = topicTrigger;
 			response = ChatbotMain.getInput();
+			
+			if(flirty) {
+				regTopics = false;
+				aweTopics = false;
+			}
 			if(isTriggeredGoodbye(response)) {
 				chatting = false;
 				ChatbotMain.chatbot.startTalkingAgain();
@@ -161,6 +184,23 @@ public class ChatbotErik implements Topic {
 				}
 			}		
 
+			
+			if(forceChange) {
+				lastResponse = response;
+				ChatbotMain.print("Sorry, but is this going to take any longer? I am getting bored of you. Tell me something else.");
+			}else
+			if(!regTopics && !aweTopics) {
+				lastResponse = response;
+				numberOfRepeat = 0;
+				randomIndex = (int) Math.floor(Math.random()*flirtyResponses.length);
+				ChatbotMain.print(flirtyResponses[randomIndex]);
+				numberOfFlirt++;
+				if(numberOfFlirt > 2) {
+					ChatbotMain.print("Why don't you ask me out already?");
+					ChatbotMain.chatbot.getJenny().startChatting(response);
+				}
+			}else
+			
 			if(regTopics && topicTrigger == stayOnTopic) {
 				lastResponse = response;
 				numberOfRepeat = 0;
@@ -190,9 +230,6 @@ public class ChatbotErik implements Topic {
 				regTopics = false;
 				aweTopics = false;
 				ChatbotMain.chatbot.startTalkingAgain();
-			}else if(forceChange) {
-				lastResponse = response;
-				ChatbotMain.print("Sorry, but is this going to take any longer? I am getting bored of you. Tell me something else.");
 			}else if(!regTopics && !aweTopics && numberOfRepeat > 4){
 				numberOfRepeat = 0;
 				ChatbotMain.print("Im bringing you back to talk about something else.");
