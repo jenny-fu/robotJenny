@@ -32,9 +32,9 @@ public class Chatbot {
 					chatting = false;
 					sam.startChatting(response);
 			}
-			else if(getErik().isTriggered(response)) {
+			else if(erik.isTriggered(response)) {
 						chatting = false;
-						getErik().startChatting(response);
+						erik.startChatting(response);
 			}
 			else
 				ChatbotMain.print("I'm sorry. I don't understand.");
