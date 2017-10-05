@@ -88,8 +88,9 @@ public class ChatbotJenny implements Topic {
 					askDate = true;
 				}
 			}
-		}else if(askDate && ChatbotSam.getComplimentScore() == 4) {
+		}else if(askedOut(response) && ChatbotSam.getComplimentScore() == 4) {
 			ChatbotMain.print("Sure, I'll go on a date with you! Where do you want to go?");
+			response = ChatbotMain.getInput();
 			if(ChatbotMain.findKeyword(response, "do you", 0) >= 0) {
 				ChatbotMain.print("Why do you want to go to " + location(response,0) + "?");
 			}else 
