@@ -26,7 +26,7 @@ public class Chatbot {
 			String response = ChatbotMain.getInput();
 			if(getJenny().isTriggered(response)) {
 				chatting = false;
-				getJenny().startChatting(response);
+				jenny.startChatting(response);
 			}
 			else if(sam.isTriggered(response)) {
 					chatting = false;
@@ -34,7 +34,7 @@ public class Chatbot {
 			}
 			else if(getErik().isTriggered(response)) {
 						chatting = false;
-						getErik().startChatting(response);
+						erik.startChatting(response);
 			}
 			else
 				ChatbotMain.print("I'm sorry. I don't understand.");
@@ -48,7 +48,7 @@ public class Chatbot {
 			String response = ChatbotMain.getInput();
 			if(getJenny().isTriggered(response)) {
 				chatting = false;
-				getJenny().startChatting(response);
+				jenny.startChatting(response);
 			}
 			else if(sam.isTriggered(response)) {
 					chatting = false;
@@ -56,7 +56,7 @@ public class Chatbot {
 			}
 			else if(getErik().isTriggered(response)) {
 						chatting = false;
-						getErik().startChatting(response);
+						erik.startChatting(response);
 			}
 			else
 				ChatbotMain.print("I'm sorry. I don't understand.");
