@@ -20,9 +20,9 @@ public class ChatbotSam implements Topic{
 	private String lastResponse;
 	
 	public ChatbotSam() {
-		String[] temp = {"pretty", "beautiful", "gorgeous", "sexy", "ugly", "fat", "disgusting","hideous", "cute","lovely", "amazing", "nice", "kind", "smart", "nasty", "dumb", "stupid", "idiot", "cheese", "hate you", "hot"};
+		String[] temp = {"pretty", "beautiful", "gorgeous", "sexy", "ugly", "fat", "disgusting","hideous", "cute","lovely", "amazing", "nice", "kind", "smart", "nasty", "dumb", "stupid", "idiot", "cheese", "hate you", "hot", "cool", "awesome", "perfect"};
 		keywords = temp;
-		String[] temp2 = {"pretty", "beautiful", "gorgeous", "sexy", "cute", "lovely", "amazing", "nice", "kind", "smart", "hot"};
+		String[] temp2 = {"pretty", "beautiful", "gorgeous", "sexy", "cute", "lovely", "amazing", "nice", "kind", "smart", "hot", "cool", "awesome", "perfect"};
 		compliments = temp2;
 		String[] temp3 = {"ugly", "fat", "disgusting", "hideous","nasty","dumb","stupid","idiot","cheese", "hate you"};
 		insults = temp3;
