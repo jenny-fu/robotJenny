@@ -12,16 +12,15 @@ public class ChatbotJenny implements Topic {
 	private String secretWord;
 	private boolean askDate;
 	private boolean confess;
-	private boolean accepted;
 	private boolean chatting;
 	private int resCount;
 
 	public ChatbotJenny() {
 		String[] temp = {"date", "free", "hang out", "dating"};
-		String[] temp2 = {"be my girlfriend", "be your boyfriend", "like you", "love you"};
+		String[] temp2 = {"be my girlfriend", "be your boyfriend", "like you", "love you", "marry me", "go out with me", "go out"};
 		String[] temp3 = {"why not", "why", "why don't", "how come"};
 		String[] temp4 = {"I have a lot of homework today.", "I have work.", "I have some family business I need to go to."};
-		String[] temp5 = {"Sorry, I don't want to be in a relationship at the moment.", "I am not interested in you.", "I am not looking for a boyfriend right now..."};
+		String[] temp5 = {"I don't want to be in a relationship at the moment.", "I am not interested in you.", "I am not looking for a boyfriend right now..."};
 		String[] temp6 = {"Um, are you listening to me?", "Are you reading what I have to say?", "Hello???", "What is wrong with you?", "Ugh! I hate people like you!"};
 		date = temp;
 		confessions = temp2;
@@ -74,18 +73,20 @@ public class ChatbotJenny implements Topic {
 
 	//getComplimentScore 8-11;
 	public void startChatting(String response) {
-		for(int j = 0; j < confessions.length; j++) {
-			if(ChatbotMain.findKeyword(response, confessions[j], 0) >= 0) {
-				ChatbotMain.print("Oh...");
-				confess = true;
-				askDate = false;
+		if(ChatbotSam.getComplimentScore() < 8 && ChatbotSam.getComplimentScore() > 11 ) {
+			for(int j = 0; j < confessions.length; j++) {
+				if(ChatbotMain.findKeyword(response, confessions[j], 0) >= 0) {
+					ChatbotMain.print("Oh...");
+					confess = true;
+					askDate = false;
+				}
 			}
-		}
-		for(int i = 0; i < date.length; i++) {
-			if(ChatbotMain.findKeyword(response, date[i], 0) >= 0) {
-				ChatbotMain.print("No, sorry.");
-				confess = false;
-				askDate = true;
+			for(int i = 0; i < date.length; i++) {
+				if(ChatbotMain.findKeyword(response, date[i], 0) >= 0) {
+					ChatbotMain.print("No, sorry.");
+					confess = false;
+					askDate = true;
+				}
 			}
 		}
 		chatting = true;
@@ -131,10 +132,16 @@ public class ChatbotJenny implements Topic {
 				ChatbotMain.chatbot.getErik().startChatting(response);
 			}else if(ChatbotMain.chatbot.getSam().isTriggered(response)) {
 				ChatbotMain.chatbot.getSam().startChatting(response);
-			}else if(ChatbotSam.getComplimentScore() == 8 && askDate) {
-
-			}else if(ChatbotSam.getComplimentScore() == 11 && confess) {
-
+			}else if(askDate && ChatbotSam.getComplimentScore() == 8) {
+				ChatbotMain.print("Sure, I'll go on a date with you! Where do you want to go?");
+				if(ChatbotMain.findKeyword(response, "do you", 0) >= 0) {
+					ChatbotMain.print("Why do you want to go to " + location(response,0) + "?");
+				}else 
+					ChatbotMain.print("Sure, let's go to " + location(response,0) + ".");
+			}else if(confess && ChatbotSam.getComplimentScore() == 11) {
+		//////////		
+			}else if(ChatbotMain.findKeyword(response, secretWord, 0) >= 0) {
+				
 			}else if(questioned(response)) {
 				ChatbotMain.print(excuse[idx]);
 			}else if(confessed(response)) {
@@ -142,16 +149,22 @@ public class ChatbotJenny implements Topic {
 			}else if(ChatbotMain.findKeyword(response, goodbyeWord, 0) >= 0) {
 				chatting = false;
 				ChatbotMain.chatbot.startTalkingAgain();
-			}else if(ChatbotMain.findKeyword(response, secretWord, 0) >= 0) {
-				ChatbotMain.print("OMG that's my favorite thing ever! Are you free this week?");
-				accepted = true;
-				while(accepted) {
-					///////////////////////////////////////////////////////////////////						
-				}
 			}else
 				ChatbotMain.print("Huh. I don't really get you. Tell me something else.");
 			responseBefore = response;
 		}
+	}
+	
+	public String location(String response, int psn) {
+		if(psn == 0 && response.indexOf(" ") == -1){
+			return response;
+		}
+		else if(ChatbotMain.findKeyword(response, "go to", 0) >= 0) {
+			int position = ChatbotMain.findKeyword(response, "go to", 0);
+			String newString = response.substring(position + 6);
+			return newString;
+		}
+		return response;
 	}
 
 }
