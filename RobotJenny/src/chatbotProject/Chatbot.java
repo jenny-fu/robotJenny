@@ -22,7 +22,7 @@ public class Chatbot {
 		user = ChatbotSam.getUser(userName,0);
 		chatting = true;
 		while(chatting) {
-			ChatbotMain.print("Hey " + user + " what do you want to talk about?");
+			ChatbotMain.print("Hey " + user + ", what do you want to talk about?");
 			String response = ChatbotMain.getInput();
 			if(getJenny().isTriggered(response)) {
 				chatting = false;
