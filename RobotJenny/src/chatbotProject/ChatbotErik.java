@@ -157,11 +157,11 @@ public class ChatbotErik implements Topic {
 			randomIndex = (int) Math.floor(Math.random()*dislikeResponses.length);
 			ChatbotMain.print(dislikeResponses[randomIndex]);
 		}else
-		ChatbotMain.print("Let's talk some more about that! What about it?");
+			ChatbotMain.print("Let's talk some more about that! What about it?");
 		chatting = true;
 		while(chatting) {
 			//int stayOnTopic = topicTrigger;
-			
+
 			response = ChatbotMain.getInput();
 
 			flirty = checkFlirty();
@@ -192,53 +192,76 @@ public class ChatbotErik implements Topic {
 				ChatbotMain.chatbot.getJenny().startChatting(response);
 			} else
 
-/*
-				for(int i = 0; i < topics.length; i++) {
-					if(ChatbotMain.findKeyword(response, topics[i], 0) >= 0){
-						topicTrigger = i;
-					}
-				}
-			for(int i = 0; i < litTopics.length; i++) {
-				if(ChatbotMain.findKeyword(response, litTopics[i], 0) >= 0){
-					topicTrigger = i;
-				}
-			}		
 
-*/
-			if(forceChange) {
-				lastResponse = response;
-				ChatbotMain.print("Sorry, but is this going to take any longer? I am getting bored of you. Tell me something else.");
-			}else if(!isTriggeredRegularTopics(response) && !isTriggeredLitTopics(response) && flirty) {
-				lastResponse = response;
-				numberOfRepeat = 0;
-				numberOfFlirt++;
-				if(numberOfFlirt > 2) {
-					ChatbotMain.print("Hey weird thought, but why don't you ask me out already?");
-					ChatbotMain.chatbot.getJenny().startChatting(response);
-				}
-				randomIndex = (int) Math.floor(Math.random()*flirtyResponses.length);
-				ChatbotMain.print(flirtyResponses[randomIndex]);
-			}else if(isTriggeredRegularTopics(response) || regTopics/* && topicTrigger == stayOnTopic*/) {
-				lastResponse = response;
-				numberOfRepeat = 0;
-				randomIndex = (int) Math.floor(Math.random()*neutralResponses.length);
-				ChatbotMain.print(neutralResponses[randomIndex]);
-				numberOfNeutral++;
-				if(numberOfNeutral > 2) {
-					regTopics = false;
-					forceChange = true;
-				}
-			}else if(isTriggeredLitTopics(response) || aweTopics/*&& topicTrigger == stayOnTopic*/) {
-				lastResponse = response;
-				numberOfRepeat = 0;
-				randomIndex = (int) Math.floor(Math.random()*interestResponses.length);
-				ChatbotMain.print(interestResponses[randomIndex]);
-				numberOfInterest++;
-				if(numberOfInterest > 4) {
-					aweTopics = false;
-					forceChange = true;
-				}
-			}/*else if(!isTriggeredRegularTopics(response) && !isTriggeredLitTopics(response)) {
+
+
+				if(forceChange) {
+					lastResponse = response;
+					ChatbotMain.print("Sorry, but is this going to take any longer? I am getting bored of you. Tell me something else.");
+					ChatbotMain.chatbot.startTalkingAgain();
+				}else 
+
+
+					if(regTopics && isTriggeredLitTopics(response)) {
+						lastResponse = response;
+						numberOfRepeat = 0;
+						numberOfNeutral = 0;
+						randomIndex = (int) Math.floor(Math.random()*interestResponses.length);
+						ChatbotMain.print(interestResponses[randomIndex]);
+						numberOfInterest++;
+						if(numberOfInterest > 4) {
+							aweTopics = false;
+							forceChange = true;
+						}
+					}else
+
+						if(aweTopics && isTriggeredRegularTopics(response)) {
+							lastResponse = response;
+							numberOfRepeat = 0;
+							numberOfInterest = 0;
+							randomIndex = (int) Math.floor(Math.random()*neutralResponses.length);
+							ChatbotMain.print(neutralResponses[randomIndex]);
+							numberOfNeutral++;
+							if(numberOfNeutral > 2) {
+								regTopics = false;
+								forceChange = true;
+							}
+						}else
+
+
+
+
+							if(!isTriggeredRegularTopics(response) && !isTriggeredLitTopics(response) && flirty) {
+								lastResponse = response;
+								numberOfRepeat = 0;
+								numberOfFlirt++;
+								if(numberOfFlirt > 2) {
+									ChatbotMain.print("Hey weird thought, but why don't you ask me out already?");
+									ChatbotMain.chatbot.getJenny().startChatting(response);
+								}
+								randomIndex = (int) Math.floor(Math.random()*flirtyResponses.length);
+								ChatbotMain.print(flirtyResponses[randomIndex]);
+							}else if(isTriggeredRegularTopics(response) || regTopics/* && topicTrigger == stayOnTopic*/) {
+								lastResponse = response;
+								numberOfRepeat = 0;
+								randomIndex = (int) Math.floor(Math.random()*neutralResponses.length);
+								ChatbotMain.print(neutralResponses[randomIndex]);
+								numberOfNeutral++;
+								if(numberOfNeutral > 2) {
+									regTopics = false;
+									forceChange = true;
+								}
+							}else if(isTriggeredLitTopics(response) || aweTopics/*&& topicTrigger == stayOnTopic*/) {
+								lastResponse = response;
+								numberOfRepeat = 0;
+								randomIndex = (int) Math.floor(Math.random()*interestResponses.length);
+								ChatbotMain.print(interestResponses[randomIndex]);
+								numberOfInterest++;
+								if(numberOfInterest > 4) {
+									aweTopics = false;
+									forceChange = true;
+								}
+							}/*else if(!isTriggeredRegularTopics(response) && !isTriggeredLitTopics(response)) {
 				lastResponse = response;
 				numberOfRepeat = 0;
 				forceChange = false;
@@ -246,18 +269,18 @@ public class ChatbotErik implements Topic {
 				numberOfInterest = 0;
 				ChatbotMain.print("Let's talk some more about that! What about it?");
 			}*/
-			
-			else if(!isTriggeredRegularTopics(response) && !isTriggeredLitTopics(response) && numberOfRepeat > 4){
-				numberOfRepeat = 0;
-				ChatbotMain.print("Im bringing you back to talk about something else.");
-				ChatbotMain.chatbot.startTalkingAgain();
-			}else
-			{
-				lastResponse = response;
-				numberOfNeutral = 0;
-				numberOfInterest = 0;
-				ChatbotMain.print("Tell me something else please. Like any other topic.");
-			}
+
+							else if(!isTriggeredRegularTopics(response) && !isTriggeredLitTopics(response) && numberOfRepeat > 4){
+								numberOfRepeat = 0;
+								ChatbotMain.print("Im bringing you back to talk about something else.");
+								ChatbotMain.chatbot.startTalkingAgain();
+							}else
+							{
+								lastResponse = response;
+								numberOfNeutral = 0;
+								numberOfInterest = 0;
+								ChatbotMain.print("Tell me something else please. Like any other topic.");
+							}
 		}
 	}
 
