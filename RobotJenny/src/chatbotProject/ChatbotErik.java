@@ -87,7 +87,7 @@ public class ChatbotErik implements Topic {
 	public boolean isTriggeredRegularTopics(String response) {
 		for(int i = 0; i < topics.length; i++) {
 			if((ChatbotMain.findKeyword(response, topics[i], 0) >= 0)){
-				//topicTrigger = i;
+				regTopics = true;
 				return true;
 			}
 		}
@@ -97,7 +97,7 @@ public class ChatbotErik implements Topic {
 	public boolean isTriggeredLitTopics(String response) {
 		for(int i = 0; i < litTopics.length; i++) {
 			if(ChatbotMain.findKeyword(response, litTopics[i], 0) >= 0){
-				//topicTrigger = i;
+				aweTopics = true;
 				return true;
 			}
 		}
@@ -132,7 +132,7 @@ public class ChatbotErik implements Topic {
 	}
 	 */
 	public boolean checkFlirty() {
-		if(complimentScore >= 8 && complimentScore <= 11) {
+		if(complimentScore >= 4 && complimentScore <= 6) {
 			return true;
 		}
 		return false;
@@ -150,29 +150,21 @@ public class ChatbotErik implements Topic {
 		complimentScore = ChatbotSam.getComplimentScore();
 		flirty = checkFlirty();
 
-		if(regTopics) {
-			aweTopics = false;
-		}
-		if(aweTopics) {
-			regTopics = false;
-		}
 		if(isTriggeredDislikes(response)) {
 			lastResponse = response;
 			numberOfRepeat = 0;
 			//dislikeTopics = true;
 			randomIndex = (int) Math.floor(Math.random()*dislikeResponses.length);
-			ChatbotMain.print(dislikeResponses[randomIndex] + complimentScore);
+			ChatbotMain.print(dislikeResponses[randomIndex]);
 		}else
 		ChatbotMain.print("Let's talk some more about that! What about it?");
 		chatting = true;
 		while(chatting) {
 			//int stayOnTopic = topicTrigger;
+			
 			response = ChatbotMain.getInput();
 
-			if(flirty) {
-				regTopics = false;
-				aweTopics = false;
-			}
+			flirty = checkFlirty();
 			if(isTriggeredGoodbye(response)) {
 				chatting = false;
 				ChatbotMain.chatbot.startTalkingAgain();
@@ -216,7 +208,7 @@ public class ChatbotErik implements Topic {
 			if(forceChange) {
 				lastResponse = response;
 				ChatbotMain.print("Sorry, but is this going to take any longer? I am getting bored of you. Tell me something else.");
-			}else if(!regTopics && !aweTopics && flirty) {
+			}else if(!isTriggeredRegularTopics(response) && !isTriggeredLitTopics(response) && flirty) {
 				lastResponse = response;
 				numberOfRepeat = 0;
 				numberOfFlirt++;
@@ -226,7 +218,7 @@ public class ChatbotErik implements Topic {
 				}
 				randomIndex = (int) Math.floor(Math.random()*flirtyResponses.length);
 				ChatbotMain.print(flirtyResponses[randomIndex]);
-			}else if(regTopics /* && topicTrigger == stayOnTopic*/) {
+			}else if(isTriggeredRegularTopics(response) || regTopics/* && topicTrigger == stayOnTopic*/) {
 				lastResponse = response;
 				numberOfRepeat = 0;
 				randomIndex = (int) Math.floor(Math.random()*neutralResponses.length);
@@ -236,32 +228,34 @@ public class ChatbotErik implements Topic {
 					regTopics = false;
 					forceChange = true;
 				}
-			}else if(aweTopics /*&& topicTrigger == stayOnTopic*/) {
+			}else if(isTriggeredLitTopics(response) || aweTopics/*&& topicTrigger == stayOnTopic*/) {
 				lastResponse = response;
 				numberOfRepeat = 0;
 				randomIndex = (int) Math.floor(Math.random()*interestResponses.length);
 				ChatbotMain.print(interestResponses[randomIndex]);
 				numberOfInterest++;
-				if(numberOfInterest > 2) {
+				if(numberOfInterest > 4) {
 					aweTopics = false;
 					forceChange = true;
 				}
-			}else if(!regTopics && !aweTopics) {
+			}/*else if(!isTriggeredRegularTopics(response) && !isTriggeredLitTopics(response)) {
 				lastResponse = response;
 				numberOfRepeat = 0;
 				forceChange = false;
 				numberOfNeutral = 0;
 				numberOfInterest = 0;
-				regTopics = false;
-				aweTopics = false;
-				ChatbotMain.chatbot.startTalkingAgain();
-			}else if(!regTopics && !aweTopics && numberOfRepeat > 4){
+				ChatbotMain.print("Let's talk some more about that! What about it?");
+			}*/
+			
+			else if(!isTriggeredRegularTopics(response) && !isTriggeredLitTopics(response) && numberOfRepeat > 4){
 				numberOfRepeat = 0;
 				ChatbotMain.print("Im bringing you back to talk about something else.");
 				ChatbotMain.chatbot.startTalkingAgain();
 			}else
 			{
 				lastResponse = response;
+				numberOfNeutral = 0;
+				numberOfInterest = 0;
 				ChatbotMain.print("Tell me something else please. Like any other topic.");
 			}
 		}
