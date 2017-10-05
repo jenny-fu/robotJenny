@@ -7,6 +7,7 @@ public class ChatbotJenny implements Topic {
 	private String[] excuse;
 	private String[] confessions;
 	private String[] reject;
+	private String[] repeat;
 	private String goodbyeWord;
 	private String secretWord;
 	private boolean askDate;
@@ -21,11 +22,13 @@ public class ChatbotJenny implements Topic {
 		String[] temp3 = {"why not", "why", "why don't", "how come"};
 		String[] temp4 = {"I have a lot of homework today.", "I have work.", "I have some family business I need to go to."};
 		String[] temp5 = {"Sorry, I don't want to be in a relationship at the moment.", "I am not interested in you.", "I am not looking for a boyfriend right now..."};
+		String[] temp6 = {"Um, are you listening to me?", "Are you reading what I have to say?", "Hello???", "What is wrong with you?", "Ugh! I hate people like you!"};
 		date = temp;
 		confessions = temp2;
 		question = temp3;
 		excuse = temp4;
 		reject = temp5;
+		repeat = temp6;
 		goodbyeWord = "bye";
 		secretWord = "EXO";
 		resCount = 0;
@@ -72,12 +75,18 @@ public class ChatbotJenny implements Topic {
 	//getComplimentScore 8-11;
 	public void startChatting(String response) {
 		for(int j = 0; j < confessions.length; j++) {
-			if(ChatbotMain.findKeyword(response, confessions[j], 0) >= 0)
+			if(ChatbotMain.findKeyword(response, confessions[j], 0) >= 0) {
 				ChatbotMain.print("Oh...");
+				confess = true;
+				askDate = false;
+			}
 		}
 		for(int i = 0; i < date.length; i++) {
-			if(ChatbotMain.findKeyword(response, date[i], 0) >= 0)
+			if(ChatbotMain.findKeyword(response, date[i], 0) >= 0) {
 				ChatbotMain.print("No, sorry.");
+				confess = false;
+				askDate = true;
+			}
 		}
 		chatting = true;
 		String responseBefore = "";
@@ -86,7 +95,7 @@ public class ChatbotJenny implements Topic {
 			int idx = (int) Math.floor(Math.random() * excuse.length);
 			response = ChatbotMain.getInput();
 			
-			if(askedOut(response)) {
+			if((askedOut(response))) {
 				askDate = true;
 				confess = false;
 			}
@@ -98,13 +107,17 @@ public class ChatbotJenny implements Topic {
 			if(responseBefore.toLowerCase().equals(response.toLowerCase())) {
 				ChatbotMain.print("I thought I told you already.");
 				resCount++;
+				int i = 0;
 				while(resCount > 0) {
-					if(resCount == 3) {
-						ChatbotMain.print("Are you even listening to me??");
-					}else if(confess){
+					if(i > repeat.length - 1) {
+						ChatbotMain.print("I won't talk to you until you say something else.");
+					}else if(resCount%2 == 0) {
+						ChatbotMain.print(repeat[i]);
+						i++;
+					}else if(confess && resCount > 1){
 						ChatbotMain.print("I SAID " + reject[index]);
-					}else if(askDate) {
-						ChatbotMain.print("I already said that " + excuse[idx]);
+					}else if(askDate && resCount > 1) {
+						ChatbotMain.print("I said that " + excuse[idx]);
 					}
 					response = ChatbotMain.getInput();
 					if(responseBefore.toLowerCase().equals(response.toLowerCase()))
