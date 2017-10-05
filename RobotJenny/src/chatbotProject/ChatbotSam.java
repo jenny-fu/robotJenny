@@ -134,38 +134,10 @@ public class ChatbotSam implements Topic{
 
 	public void startChatting(String response) {
 		if(isTriggeredCompliments(response)) {
-			complimentScore++;
-			while(replyNumber2 == lastCompliment) {
-				replyNumber2 = (int) Math.round(Math.random()*(complimentReplies.length-2));
-			}
-			ChatbotMain.print(complimentReplies[replyNumber2]);
-			lastCompliment = replyNumber2;
-			repeatScore = 0;
-			if(replyNumber == 6) {
-				response = ChatbotMain.getInput();
-				if(ChatbotMain.findKeyword(response, "yes", 0) >=0) {
-					replyNumber2 = (int) Math.round(Math.random()*(complimentReplies.length-2));
-					ChatbotMain.print(complimentReplies[replyNumber2]);
-				}
-				else if(ChatbotMain.findKeyword(response, "no", 0) >=0){
-					ChatbotMain.print("Don't lie to me like that!");
-					complimentScore--;
-				}
-			}
+			givenCompliment(response);
 		}
 		else if(isTriggeredInsults(response)) {
-			complimentScore = complimentScore - 3;
-			if(ChatbotMain.findKeyword(response, "cheese", 0)>=0) {
-				ChatbotMain.print("Don't ever say cheese around me");
-			}
-			else {
-				while(replyNumber == lastInsult) {
-					replyNumber = (int) Math.round(Math.random()*(insultReplies.length-1));
-				}
-				ChatbotMain.print(insultReplies[replyNumber]);
-				lastInsult = replyNumber;
-				repeatScore = 0;
-			}
+			givenInsults(response);
 		}
 		lastResponse = response;
 		chatting = true;
@@ -175,11 +147,9 @@ public class ChatbotSam implements Topic{
 				repitition(response);
 			}
 			else if(ChatbotMain.chatbot.getErik().isTriggered(response)) {
-				System.err.println("Going to Erik");
 				ChatbotMain.chatbot.getErik().startChatting(response);
 			}
 			else if(ChatbotMain.chatbot.getJenny().isTriggered(response)) {
-				System.err.println("Going to Jenny");
 				ChatbotMain.chatbot.getJenny().startChatting(response);
 			}
 			else if(ChatbotMain.findKeyword(response, goodbyeWord, 0)>=0) {
