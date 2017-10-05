@@ -166,7 +166,7 @@ public class ChatbotSam implements Topic{
 				while(replyFlirts == lastFlirt) {
 					replyFlirts = (int) Math.round(Math.random()*(flirtyReplies.length-2));
 				}
-				ChatbotMain.print(flirtyReplies[replyNumber2]);
+				ChatbotMain.print(flirtyReplies[replyFlirts]);
 				lastFlirt = replyFlirts;
 				repeatScore = 0;
 			}
