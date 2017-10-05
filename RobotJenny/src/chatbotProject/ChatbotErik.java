@@ -132,7 +132,7 @@ public class ChatbotErik implements Topic {
 	}
 	 */
 	public boolean checkFlirty() {
-		if(complimentScore >= 8 || complimentScore <= 11) {
+		if(complimentScore >= 8 && complimentScore <= 11) {
 			return true;
 		}
 		return false;
