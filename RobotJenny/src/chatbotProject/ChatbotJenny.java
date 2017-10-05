@@ -73,7 +73,7 @@ public class ChatbotJenny implements Topic {
 
 	//getComplimentScore 8-11;
 	public void startChatting(String response) {
-		if(ChatbotSam.getComplimentScore() < 8 && ChatbotSam.getComplimentScore() > 11 ) {
+		if(ChatbotSam.getComplimentScore() < 4 || ChatbotSam.getComplimentScore() > 6) {
 			for(int j = 0; j < confessions.length; j++) {
 				if(ChatbotMain.findKeyword(response, confessions[j], 0) >= 0) {
 					ChatbotMain.print("Oh...");
@@ -132,13 +132,13 @@ public class ChatbotJenny implements Topic {
 				ChatbotMain.chatbot.getErik().startChatting(response);
 			}else if(ChatbotMain.chatbot.getSam().isTriggered(response)) {
 				ChatbotMain.chatbot.getSam().startChatting(response);
-			}else if(askDate && ChatbotSam.getComplimentScore() == 8) {
+			}else if(askDate && ChatbotSam.getComplimentScore() == 4) {
 				ChatbotMain.print("Sure, I'll go on a date with you! Where do you want to go?");
 				if(ChatbotMain.findKeyword(response, "do you", 0) >= 0) {
 					ChatbotMain.print("Why do you want to go to " + location(response,0) + "?");
 				}else 
 					ChatbotMain.print("Sure, let's go to " + location(response,0) + ".");
-			}else if(confess && ChatbotSam.getComplimentScore() == 11) {
+			}else if(confess && ChatbotSam.getComplimentScore() == 6) {
 		//////////		
 			}else if(ChatbotMain.findKeyword(response, secretWord, 0) >= 0) {
 				
