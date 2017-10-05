@@ -88,15 +88,26 @@ public class ChatbotJenny implements Topic {
 					askDate = true;
 				}
 			}
+		}else if(askDate && ChatbotSam.getComplimentScore() == 4) {
+			ChatbotMain.print("Sure, I'll go on a date with you! Where do you want to go?");
+			if(ChatbotMain.findKeyword(response, "do you", 0) >= 0) {
+				ChatbotMain.print("Why do you want to go to " + location(response,0) + "?");
+			}else 
+				ChatbotMain.print("Sure, let's go to " + location(response,0) + ".");
+		}else if(confess && ChatbotSam.getComplimentScore() == 6) {
+	//////////		
+		}else if(ChatbotMain.findKeyword(response, secretWord, 0) >= 0) {
+			
 		}
+			
 		chatting = true;
 		String responseBefore = "";
+		int index = (int) Math.floor(Math.random() * reject.length);
+		int idx = (int) Math.floor(Math.random() * excuse.length);
 		while(chatting) {
-			int index = (int) Math.floor(Math.random() * reject.length);
-			int idx = (int) Math.floor(Math.random() * excuse.length);
 			response = ChatbotMain.getInput();
 			
-			if((askedOut(response))) {
+			if(askedOut(response)) {
 				askDate = true;
 				confess = false;
 			}
@@ -132,16 +143,6 @@ public class ChatbotJenny implements Topic {
 				ChatbotMain.chatbot.getErik().startChatting(response);
 			}else if(ChatbotMain.chatbot.getSam().isTriggered(response)) {
 				ChatbotMain.chatbot.getSam().startChatting(response);
-			}else if(askDate && ChatbotSam.getComplimentScore() == 4) {
-				ChatbotMain.print("Sure, I'll go on a date with you! Where do you want to go?");
-				if(ChatbotMain.findKeyword(response, "do you", 0) >= 0) {
-					ChatbotMain.print("Why do you want to go to " + location(response,0) + "?");
-				}else 
-					ChatbotMain.print("Sure, let's go to " + location(response,0) + ".");
-			}else if(confess && ChatbotSam.getComplimentScore() == 6) {
-		//////////		
-			}else if(ChatbotMain.findKeyword(response, secretWord, 0) >= 0) {
-				
 			}else if(questioned(response)) {
 				ChatbotMain.print(excuse[idx]);
 			}else if(confessed(response)) {
