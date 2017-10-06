@@ -289,14 +289,7 @@ public class ChatbotErik implements Topic {
 									aweTopics = false;
 									forceChange = true;
 								}
-							}/*else if(!isTriggeredRegularTopics(response) && !isTriggeredLitTopics(response)) {
-				lastResponse = response;
-				numberOfRepeat = 0;
-				forceChange = false;
-				numberOfNeutral = 0;
-				numberOfInterest = 0;
-				ChatbotMain.print("Let's talk some more about that! What about it?");
-			}*/
+							}
 
 							else if(!isTriggeredRegularTopics(response) && !isTriggeredLitTopics(response) && numberOfRepeat > 4){
 								numberOfRepeat = 0;
