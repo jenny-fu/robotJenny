@@ -17,10 +17,7 @@ public class ChatbotErik implements Topic {
 	private boolean dislikeTopics = false;
 	private String[] questions;
 	private String questionType = "";
-	//private String[] jokeResponses;
-	//private String[] jokeTriggers;
-	//private String[] jokeAnswers;
-	//private String[] questionsForMe;
+	//private String[] personDislikes = {];
 	private String[] goodbyeWords;
 	private String secretWord;
 	private boolean chatting;
