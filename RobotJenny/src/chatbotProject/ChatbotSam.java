@@ -24,6 +24,7 @@ public class ChatbotSam implements Topic{
 	private int lastTooFlirty;
 	private int replyTooFlirty;
 	private String lastResponse;
+	private String newResponse;
 
 	public ChatbotSam() {
 		String[] temp = {"pretty", "beautiful", "gorgeous", "sexy", "ugly", "fat", "disgusting","hideous", "cute","lovely", "amazing", "nice", "kind", "smart", "nasty", "dumb", "stupid", "idiot", "cheese", "hate you", "hot", "cool", "awesome", "perfect", "funny"};
@@ -55,6 +56,7 @@ public class ChatbotSam implements Topic{
 		replyTooFlirty = -1;
 		lastTooFlirty = -1;
 		lastResponse = "";
+		newResponse = "";
 	}
 	public boolean isTriggered(String response) {
 		for(int i = 0; i < keywords.length; i++) {
@@ -125,7 +127,7 @@ public class ChatbotSam implements Topic{
 				int repeatReplyNumber = (int) Math.round(Math.random()*(repeatReplies.length-1));
 				ChatbotMain.print(repeatReplies[repeatReplyNumber]);
 			}
-			String newResponse = ChatbotMain.getInput();
+			newResponse = ChatbotMain.getInput();
 			if(lastResponse.toLowerCase().equals(newResponse.toLowerCase())) {
 				repeatScore++;
 			}
@@ -153,6 +155,7 @@ public class ChatbotSam implements Topic{
 			response = ChatbotMain.getInput();
 			if(lastResponse.toLowerCase().equals(response.toLowerCase())) {
 				repitition(response);
+				response = newResponse;
 			}
 			else if(ChatbotMain.chatbot.getErik().isTriggered(response)) {
 				ChatbotMain.chatbot.getErik().startChatting(response);
@@ -188,7 +191,7 @@ public class ChatbotSam implements Topic{
 				repeatScore = 0;
 			}
 			else if (complimentScore > 6 && ChatbotMain.findKeyword(response, "sorry", 0) > -1) {
-				ChatbotMain.print("I guess I can forgive you");
+				ChatbotMain.print("I guess I can forgive you.");
 				complimentScore = 6;
 			}
 			else if (complimentScore > 8 && isTriggeredCompliments(response)) {
