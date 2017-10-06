@@ -88,15 +88,25 @@ public class ChatbotJenny implements Topic {
 					askDate = true;
 				}
 			}
-		}else if(askedOut(response) && ChatbotSam.getComplimentScore() == 4) {
-			ChatbotMain.print("Sure, I'll go on a date with you! Where do you want to go?");
-			response = ChatbotMain.getInput();
-			if(ChatbotMain.findKeyword(response, "do you", 0) >= 0) {
-				ChatbotMain.print("Why do you want to go to " + location(response,0) + "?");
-			}else 
-				ChatbotMain.print("Sure, let's go to " + location(response,0) + ".");
-		}else if(confess && ChatbotSam.getComplimentScore() == 6) {
-	//////////		
+		}else if(askedOut(response)) {
+			if(ChatbotSam.getComplimentScore() == 4) {
+				ChatbotMain.print("Sure, I'll go on a date with you! Where do you want to go?");
+				response = ChatbotMain.getInput();
+				if(ChatbotMain.findKeyword(response, "do you", 0) >= 0) {
+					ChatbotMain.print("Why do you want to go to " + location(response,0) + "?");
+				}else 
+					ChatbotMain.print("Sure, let's go to " + location(response,0) + "!");
+			}else if(ChatbotSam.getComplimentScore() > 4)
+				ChatbotMain.print("No, sorry. You're like my best friend!");
+				else
+				ChatbotMain.print("No, sorry. Say something else and I'll think about it.");
+		}else if(confessed(response)) {
+			if(ChatbotSam.getComplimentScore() == 6) {
+				
+			}else if(ChatbotSam.getComplimentScore() < 6)
+				ChatbotMain.print("Oh... Sorry, try again after a while.");
+				else
+					ChatbotMain.print("Oh...but you're like a brother to me!");
 		}else if(ChatbotMain.findKeyword(response, secretWord, 0) >= 0) {
 			
 		}
