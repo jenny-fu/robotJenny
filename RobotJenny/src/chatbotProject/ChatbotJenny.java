@@ -16,7 +16,7 @@ public class ChatbotJenny implements Topic {
 	private int resCount;
 
 	public ChatbotJenny() {
-		String[] temp = {"date", "free", "hang out", "dating"};
+		String[] temp = {"date", "free", "hang out", "dating", "do you want to go to"};
 		String[] temp2 = {"be my girlfriend", "be your boyfriend", "like you", "love you", "marry me", "go out with me", "go out"};
 		String[] temp3 = {"why not", "why", "why don't", "how come"};
 		String[] temp4 = {"I have a lot of homework today.", "I have work.", "I have some family business I need to go to."};
@@ -73,6 +73,7 @@ public class ChatbotJenny implements Topic {
 
 	//getComplimentScore 8-11;
 	public void startChatting(String response) {
+		String responseBefore = "";
 		if(ChatbotSam.getComplimentScore() < 4 || ChatbotSam.getComplimentScore() > 6) {
 			for(int j = 0; j < confessions.length; j++) {
 				if(ChatbotMain.findKeyword(response, confessions[j], 0) >= 0) {
@@ -89,30 +90,26 @@ public class ChatbotJenny implements Topic {
 				}
 			}
 		}else if(askedOut(response)) {
-			if(ChatbotSam.getComplimentScore() == 4) {
+			responseBefore = response;
 				ChatbotMain.print("Sure, I'll go on a date with you! Where do you want to go?");
 				response = ChatbotMain.getInput();
 				if(ChatbotMain.findKeyword(response, "do you", 0) >= 0) {
 					ChatbotMain.print("Why do you want to go to " + location(response,0) + "?");
 				}else 
 					ChatbotMain.print("Sure, let's go to " + location(response,0) + "!");
-			}else if(ChatbotSam.getComplimentScore() > 4)
-				ChatbotMain.print("No, sorry. You're like my best friend!");
-				else
-				ChatbotMain.print("No, sorry. Say something else and I'll think about it.");
 		}else if(confessed(response)) {
+			responseBefore = response;
 			if(ChatbotSam.getComplimentScore() == 6) {
 				
 			}else if(ChatbotSam.getComplimentScore() < 6)
 				ChatbotMain.print("Oh... Sorry, try again after a while.");
 				else
-					ChatbotMain.print("Oh...but you're like a brother to me!");
+					ChatbotMain.print("Oh...but you're my best friend!");
 		}else if(ChatbotMain.findKeyword(response, secretWord, 0) >= 0) {
 			
 		}
 			
 		chatting = true;
-		String responseBefore = "";
 		int index = (int) Math.floor(Math.random() * reject.length);
 		int idx = (int) Math.floor(Math.random() * excuse.length);
 		while(chatting) {
