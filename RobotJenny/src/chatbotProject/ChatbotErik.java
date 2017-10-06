@@ -15,6 +15,8 @@ public class ChatbotErik implements Topic {
 	private String[] robotDislikes;
 	private String[] dislikeResponses;
 	private boolean dislikeTopics = false;
+	private String[] questions;
+	private String questionType = "";
 	//private String[] jokeResponses;
 	//private String[] jokeTriggers;
 	//private String[] jokeAnswers;
@@ -45,12 +47,8 @@ public class ChatbotErik implements Topic {
 		robotDislikes = temp7;
 		String[] temp8 = {"Im bored","What a nerd","Sorry I have nothing to contribute to this","BOOOORRRRRRIIINNNNGGG"};
 		dislikeResponses = temp8;
-		//String[] temp6 = {""};
-		//jokeResponses = temp6;
-		//String[] temp7 = {"Tell me a joke", "know any jokes","a joke"};
-		//jokeTriggers = temp7;
-		//String[]temp8 = {""};
-		//jokeAnswers = temp8;
+		String[] temp9 = {"what","how","when","where","why","who"};
+		questions = temp9;
 
 		String[] goodbyeStrings = {"bye", "goodbye", "see you later"};
 		goodbyeWords = goodbyeStrings;
@@ -121,6 +119,21 @@ public class ChatbotErik implements Topic {
 		}
 		return false;
 	}
+
+	public boolean isTriggeredQuestions(String response) {
+		for(int i = 0; i < questions.length; i++) {
+			if(ChatbotMain.findKeyword(response, questions[i], 0) >= 0) {
+				questionType = questions[i];
+				return true;
+			}
+		}
+		if(ChatbotMain.findKeyword(response, "?", 0) >= 0){
+			return true;
+		}
+
+		return false;
+	}	
+
 	/*
 	public boolean isTriggeredJokes(String response) {
 		for(int i = 0; i < goodbyeWords.length; i++) {
@@ -151,12 +164,13 @@ public class ChatbotErik implements Topic {
 		flirty = checkFlirty();
 
 		if(isTriggeredDislikes(response)) {
-			lastResponse = response;
-			numberOfRepeat = 0;
 			//dislikeTopics = true;
 			randomIndex = (int) Math.floor(Math.random()*dislikeResponses.length);
 			ChatbotMain.print(dislikeResponses[randomIndex]);
-		}else
+		}else if(flirty) {
+			ChatbotMain.print("What's up cutie?");
+		}
+		else
 			ChatbotMain.print("Let's talk some more about that! What about it?");
 		chatting = true;
 		while(chatting) {
@@ -199,7 +213,21 @@ public class ChatbotErik implements Topic {
 					lastResponse = response;
 					ChatbotMain.print("Sorry, but is this going to take any longer? I am getting bored of you. Tell me something else.");
 					ChatbotMain.chatbot.startTalkingAgain();
-				}else 
+				}else if(isTriggeredQuestions(response)) {
+					if(questionType.equals("who")) {
+						ChatbotMain.print("I dont know that person. Or who you are talking about.");
+					}else if(questionType.equals("what")) {
+						ChatbotMain.print("I dont know.");
+					}else if(questionType.equals("when")) {
+						ChatbotMain.print("Never.");
+					}else if(questionType.equals("where")) {
+						ChatbotMain.print("That's a secret");
+					}else if(questionType.equals("why")) {
+						ChatbotMain.print("I'll never tell.");
+					}else if(questionType.equals("how")) {
+						ChatbotMain.print("It's okay.");
+					}
+				}else
 
 
 					if(regTopics && isTriggeredLitTopics(response)) {
