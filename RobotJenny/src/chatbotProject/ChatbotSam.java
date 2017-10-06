@@ -9,6 +9,7 @@ public class ChatbotSam implements Topic{
 	private String[] insultReplies;
 	private String[] repeatReplies;
 	private String[] flirtyReplies;
+	private String[] tooFlirty;
 	private String goodbyeWord;
 	private String secretWord;
 	private boolean chatting;
@@ -20,12 +21,14 @@ public class ChatbotSam implements Topic{
 	private int lastCompliment;
 	private int replyFlirts;
 	private int lastFlirt;
+	private int lastTooFlirty;
+	private int replyTooFlirty;
 	private String lastResponse;
 
 	public ChatbotSam() {
-		String[] temp = {"pretty", "beautiful", "gorgeous", "sexy", "ugly", "fat", "disgusting","hideous", "cute","lovely", "amazing", "nice", "kind", "smart", "nasty", "dumb", "stupid", "idiot", "cheese", "hate you", "hot", "cool", "awesome", "perfect"};
+		String[] temp = {"pretty", "beautiful", "gorgeous", "sexy", "ugly", "fat", "disgusting","hideous", "cute","lovely", "amazing", "nice", "kind", "smart", "nasty", "dumb", "stupid", "idiot", "cheese", "hate you", "hot", "cool", "awesome", "perfect", "funny"};
 		keywords = temp;
-		String[] temp2 = {"pretty", "beautiful", "gorgeous", "sexy", "cute", "lovely", "amazing", "nice", "kind", "smart", "hot", "cool", "awesome", "perfect"};
+		String[] temp2 = {"pretty", "beautiful", "gorgeous", "sexy", "cute", "lovely", "amazing", "nice", "kind", "smart", "hot", "cool", "awesome", "perfect", "funny"};
 		compliments = temp2;
 		String[] temp3 = {"ugly", "fat", "disgusting", "hideous","nasty","dumb","stupid","idiot","cheese", "hate you"};
 		insults = temp3;
@@ -35,8 +38,10 @@ public class ChatbotSam implements Topic{
 		insultReplies = temp5;
 		String[] temp6 = {"Seriously stop saying that.", "Is that all you can say.", "I'm tired of hearing you say that.", "Boring."};
 		repeatReplies = temp6;
-		String[] temp7 = {"Hey I just met you and this crazy, but here's my number so call me maybe! ;)", "Don't you think we should hang out sometimes?", "I'm starting to like you a bit.", "You're starting to look pretty cute yourself ;)"};
+		String[] temp7 = {"Hey I just met you and this crazy, but here's my number so call me maybe! ;)", "We should hang out sometimes.", "I'm starting to like you a bit.", "I want to give you a hug.", "You're starting to look pretty cute yourself ;)"};
 		flirtyReplies = temp7;
+		String[] temp8 = {"I'm getting a little tired of these compliments.", "I've had enough.", "You're too much now.", "You can stop now"};
+		tooFlirty = temp8;
 		goodbyeWord = "bye";
 		secretWord = "exo";
 		complimentScore = 0;
@@ -47,6 +52,8 @@ public class ChatbotSam implements Topic{
 		lastCompliment = -1;
 		replyFlirts = -1;
 		lastFlirt = -1;
+		replyTooFlirty = -1;
+		lastTooFlirty = -1;
 		lastResponse = "";
 	}
 	public boolean isTriggered(String response) {
@@ -118,13 +125,14 @@ public class ChatbotSam implements Topic{
 				int repeatReplyNumber = (int) Math.round(Math.random()*(repeatReplies.length-1));
 				ChatbotMain.print(repeatReplies[repeatReplyNumber]);
 			}
-			response = ChatbotMain.getInput();
-			if(lastResponse.toLowerCase().equals(response.toLowerCase())) {
+			String newResponse = ChatbotMain.getInput();
+			if(lastResponse.toLowerCase().equals(newResponse.toLowerCase())) {
 				repeatScore++;
 			}
 			else {
 				repeatScore= 0;
 				ChatbotMain.print("You finally said something else.");
+				lastResponse = newResponse;
 			}
 		}
 	}
@@ -169,6 +177,22 @@ public class ChatbotSam implements Topic{
 				ChatbotMain.print(flirtyReplies[replyFlirts]);
 				lastFlirt = replyFlirts;
 				repeatScore = 0;
+			}
+			else if (complimentScore > 6 && isTriggeredCompliments(response)) {
+				complimentScore++;
+				while(replyTooFlirty == lastTooFlirty) {
+					replyTooFlirty = (int) Math.round(Math.random()*(flirtyReplies.length-2));
+				}
+				ChatbotMain.print(tooFlirty[replyTooFlirty]);
+				lastTooFlirty = replyTooFlirty;
+				repeatScore = 0;
+			}
+			else if (complimentScore > 6 && ChatbotMain.findKeyword(response, "sorry", 0) > -1) {
+				ChatbotMain.print("I guess I can forgive you");
+				complimentScore = 6;
+			}
+			else if (complimentScore > 8 && isTriggeredCompliments(response)) {
+				ChatbotMain.print("Stop.");
 			}
 			else if(isTriggeredCompliments(response)) {
 				givenCompliment(response);

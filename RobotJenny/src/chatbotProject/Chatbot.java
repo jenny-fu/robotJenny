@@ -21,8 +21,8 @@ public class Chatbot {
 		userName = ChatbotMain.getInput();
 		user = ChatbotSam.getUser(userName,0);
 		chatting = true;
+		ChatbotMain.print("Hey " + user + ", what do you want to talk about?");
 		while(chatting) {
-			ChatbotMain.print("Hey " + user + ", what do you want to talk about?");
 			String response = ChatbotMain.getInput();
 			if(getJenny().isTriggered(response)) {
 				chatting = false;
@@ -37,7 +37,7 @@ public class Chatbot {
 						erik.startChatting(response);
 			}
 			else
-				ChatbotMain.print("I'm sorry. I don't understand.");
+				ChatbotMain.print("I'm sorry. I don't understand.\nTry something else.");
 		}
 	}
 	public void startTalkingAgain() {
