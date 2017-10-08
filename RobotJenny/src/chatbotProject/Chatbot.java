@@ -41,7 +41,7 @@ public class Chatbot {
 		}
 	}
 	public void startTalkingAgain() {
-		ChatbotMain.print("Well say something if you want to talk again.");
+		ChatbotMain.print("Say something if you want to talk again.");
 		chatting = true;
 		while(chatting) {
 			ChatbotMain.print("What do you want to talk about?");
