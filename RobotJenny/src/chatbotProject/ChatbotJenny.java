@@ -11,12 +11,13 @@ public class ChatbotJenny implements Topic {
 	private String[] accept;
 	private String[] beforeReject;
 	private String goodbyeWord;
-	private String secretWord;
 	private boolean askDate;
 	private boolean confess;
 	private boolean chatting;
 	private int resCount;
 	private int confessionIdx;
+	private int index;
+	private int idx;
 
 	public ChatbotJenny() {
 		String[] temp = {"date", "free", "hang out", "dating", "do you want to go to", "let's go to"};
@@ -38,10 +39,11 @@ public class ChatbotJenny implements Topic {
 		accept = temp7;
 		beforeReject = temp8;
 		goodbyeWord = "bye";
-		secretWord = "EXO";
 		resCount = 0;
 		askDate = false;
 		confess = false;
+		index = (int) Math.floor(Math.random() * reject.length);
+		idx = (int) Math.floor(Math.random() * excuse.length);
 	}
 
 	public boolean isTriggered(String response) {
@@ -80,12 +82,9 @@ public class ChatbotJenny implements Topic {
 		}	 
 		return false;
 	}
-
 	
 	public void startChatting(String response) {
 		String responseBefore = "";
-		int index = (int) Math.floor(Math.random() * reject.length);
-		int idx = (int) Math.floor(Math.random() * excuse.length);
 		if(ChatbotSam.getComplimentScore() < 4 || ChatbotSam.getComplimentScore() > 6) {
 			for(int j = 0; j < confessions.length; j++) {
 				if(ChatbotMain.findKeyword(response, confessions[j], 0) >= 0) {
@@ -120,13 +119,11 @@ public class ChatbotJenny implements Topic {
 				ChatbotMain.print("Oh...um, sorry, try again after a bit.");
 				else
 					ChatbotMain.print("Oh...but you're like my best friend!");
-		}else if(ChatbotMain.findKeyword(response, secretWord, 0) >= 0) {
-			
 		}
 			
+		response = ChatbotMain.getInput();
 		chatting = true;
 		while(chatting) {
-			response = ChatbotMain.getInput();
 			
 			if(askedOut(response)) {
 				askDate = true;
@@ -182,6 +179,7 @@ public class ChatbotJenny implements Topic {
 			}else
 				ChatbotMain.print("Huh. I don't really get you. Tell me something else.");
 			responseBefore = response;
+			response = ChatbotMain.getInput();
 		}
 	}
 	
