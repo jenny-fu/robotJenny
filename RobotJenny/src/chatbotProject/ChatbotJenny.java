@@ -63,7 +63,7 @@ public class ChatbotJenny implements Topic {
 		}
 		return false;
 	}
-	
+
 	public boolean confessed(String response) {
 		for(int i = 0; i < confessions.length; i++) {
 			if(ChatbotMain.findKeyword(response, confessions[i], 0) >= 0) {
@@ -73,7 +73,7 @@ public class ChatbotJenny implements Topic {
 		}	
 		return false;
 	}
-	
+
 	public boolean questioned(String response) {
 		for(int i = 0; i < question.length; i++) {
 			if(ChatbotMain.findKeyword(response, question[i], 0) >= 0) {
@@ -82,57 +82,56 @@ public class ChatbotJenny implements Topic {
 		}	 
 		return false;
 	}
-	
+
 	public void startChatting(String response) {
 		String responseBefore = "";
+
 		if(ChatbotSam.getComplimentScore() < 4 || ChatbotSam.getComplimentScore() > 6) {
-		for(int j = 0; j < confessions.length; j++) {
-			if(ChatbotMain.findKeyword(response, confessions[j], 0) >= 0) {
-				ChatbotMain.print(reject[index]);
-				confess = true;
-				askDate = false;
-				response = ChatbotMain.getInput();
+			for(int j = 0; j < confessions.length; j++) {
+				if(ChatbotMain.findKeyword(response, confessions[j], 0) >= 0) {
+					ChatbotMain.print(reject[index]);
+					confess = true;
+					askDate = false;
+				}
 			}
-		}
-		for(int i = 0; i < date.length; i++) {
-			if(ChatbotMain.findKeyword(response, date[i], 0) >= 0) {
-				ChatbotMain.print("No, sorry.");
-				confess = false;
-				askDate = true;
-				response = ChatbotMain.getInput();
+			for(int i = 0; i < date.length; i++) {
+				if(ChatbotMain.findKeyword(response, date[i], 0) >= 0) {
+					ChatbotMain.print("No, sorry.");
+					confess = false;
+					askDate = true;
+				}
 			}
-		}
-	}else if(askedOut(response)) {
-		responseBefore = response;
+		}else if(askedOut(response)) {
+			responseBefore = response;
 			ChatbotMain.print("Sure, I'll go on a date with you! Where do you want to go?");
 			response = ChatbotMain.getInput();
 			if(ChatbotMain.findKeyword(response, "do you", 0) >= 0) {
 				ChatbotMain.print("Why do you want to go to " + location(response,0) + "?");
 			}else 
 				ChatbotMain.print("Sure, let's go to " + location(response,0) + "! I'll go get ready. Bye!");
-				ChatbotMain.chatbot.startTalkingAgain();
-	}else if(confessed(response)) {
-		responseBefore = response;
-		if(ChatbotSam.getComplimentScore() == 6) {
-			ChatbotMain.print(accept[confessionIdx]);
-			ChatbotMain.print("Oh! I just remembered I had to do something. I'll see you next time!");
 			ChatbotMain.chatbot.startTalkingAgain();
-		}else if(ChatbotSam.getComplimentScore() < 6)
-			ChatbotMain.print("Oh...um, sorry, try again after a bit.");
+		}else if(confessed(response)) {
+			responseBefore = response;
+			if(ChatbotSam.getComplimentScore() == 6) {
+				ChatbotMain.print(accept[confessionIdx]);
+				ChatbotMain.print("Oh! I just remembered I had to do something. I'll see you next time!");
+				ChatbotMain.chatbot.startTalkingAgain();
+			}else if(ChatbotSam.getComplimentScore() < 6)
+				ChatbotMain.print("Oh...um, sorry, try again after a bit.");
 			else
 				ChatbotMain.print("Oh...but you're like my best friend!");
-	}
+		}
 		chatting = true;
 		while(chatting) {
-			
-		if(askedOut(response)) {
-			askDate = true;
-			confess = false;
-		}
-		if(confessed(response)) {
+			response = ChatbotMain.getInput();
+			if(askedOut(response)) {
+				askDate = true;
+				confess = false;
+			}
+			if(confessed(response)) {
 				confess = true;
 				askDate = false;
-		}
+			}
 			if(responseBefore.toLowerCase().equals(response.toLowerCase())) {
 				ChatbotMain.print("I thought I told you already.");
 				resCount++;
@@ -177,12 +176,12 @@ public class ChatbotJenny implements Topic {
 				ChatbotMain.chatbot.startTalkingAgain();
 			}else
 				ChatbotMain.print("Huh. I don't really get you. Tell me something else.");
-			
+
 			responseBefore = response;
 			response = ChatbotMain.getInput();
 		}
 	}
-	
+
 	public String location(String response, int psn) {
 		if(psn == 0 && response.indexOf(" ") == -1){
 			return response;
@@ -194,5 +193,5 @@ public class ChatbotJenny implements Topic {
 		}
 		return response;
 	}
-	
+
 }
