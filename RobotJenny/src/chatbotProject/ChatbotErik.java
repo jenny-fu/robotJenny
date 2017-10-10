@@ -29,7 +29,7 @@ public class ChatbotErik implements Topic {
 		topics = temp;
 		String[] temp2 = {"okay","that's cool","oh, really","mhmm","uh-huh", "im totally paying attention to you", "woahhhh -snores-","-looking at watch-"};
 		neutralResponses = temp2;
-		String[] temp3 = {"food","summer","weekends","party","friday night","concert"};
+		String[] temp3 = {"food","summer","weekends","party","friday night","concert",};
 		litTopics = temp3;
 		String[] temp4 = {"Woahhh","Tell me more","Wow!","Im interested","awesomee","sounds fun"};
 		interestResponses  = temp4;
