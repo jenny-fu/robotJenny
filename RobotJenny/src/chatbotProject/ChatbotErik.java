@@ -17,37 +17,34 @@ public class ChatbotErik implements Topic {
 	private boolean dislikeTopics = false;
 	private String[] questions;
 	private String questionType = "";
-	//private String[] personDislikes = {];
 	private String[] goodbyeWords;
 	private String secretWord;
 	private boolean chatting;
-	//private int topicTrigger;
-	//private boolean angry = false;
 
 	private String lastResponse = "";
 
 
 	public ChatbotErik() {
-		String[] temp = {"hobby","life","anything","interests","internet"};
+		String[] temp = {"hobby","life","anything","interests"};
 		topics = temp;
-		String[] temp2 = {"okay","that's cool","oh, really","mhmm","uh-huh", "im totally paying attention to you", "woahhhh -snores-"};
+		String[] temp2 = {"okay","that's cool","oh, really","mhmm","uh-huh", "im totally paying attention to you", "woahhhh -snores-","-looking at watch-"};
 		neutralResponses = temp2;
-		String[] temp3 = {"food", "summer", "weekends"};
+		String[] temp3 = {"food","summer","weekends","party","friday night","concert",};
 		litTopics = temp3;
-		String[] temp4 = {"Woahhh","Tell me more","Wow!","Im interested"};
+		String[] temp4 = {"Woahhh","Tell me more","Wow!","Im interested","awesomee","sounds fun"};
 		interestResponses  = temp4;
 		String[] temp5 = {"You're being annoying.","Is that all you can say?","Such extensive vocabulary","Are you having fun?",};
 		repeatResponses = temp5;
 		String[] temp6 = {"okay cutie", "of course babe", "sounds lit hon", "thats so funny eksdee"};
 		flirtyResponses = temp6;		
-		String[] temp7 = {"entertainment","video games","sports"};
+		String[] temp7 = {"entertainment","video games","sports","internet","school","homework","documentaries"};
 		robotDislikes = temp7;
-		String[] temp8 = {"Im bored","What a nerd","Sorry I have nothing to contribute to this","BOOOORRRRRRIIINNNNGGG"};
+		String[] temp8 = {"Im bored","What a nerd","Sorry I have nothing to contribute to this","BOOOORRRRRRIIINNNNGGG",""};
 		dislikeResponses = temp8;
 		String[] temp9 = {"what","how","when","where","why","who"};
 		questions = temp9;
 
-		String[] goodbyeStrings = {"bye", "goodbye", "see you later"};
+		String[] goodbyeStrings = {"bye", "goodbye", "see you later","talk soon"};
 		goodbyeWords = goodbyeStrings;
 		secretWord = "Exo";
 	}
@@ -131,16 +128,6 @@ public class ChatbotErik implements Topic {
 		return false;
 	}	
 
-	/*
-	public boolean isTriggeredJokes(String response) {
-		for(int i = 0; i < goodbyeWords.length; i++) {
-			if(ChatbotMain.findKeyword(response, goodbyeWords[i], 0) >= 0){
-				return true;
-			}
-		}
-		return false;
-	}
-	 */
 	public boolean checkFlirty() {
 		if(complimentScore >= 4 && complimentScore <= 6) {
 			return true;
@@ -156,12 +143,10 @@ public class ChatbotErik implements Topic {
 		int numberOfFlirt = 0;
 		int randomIndex = 0;
 		boolean forceChange = false;
-		//boolean dislike = false;
 		complimentScore = ChatbotSam.getComplimentScore();
 		flirty = checkFlirty();
 
 		if(isTriggeredDislikes(response)) {
-			//dislikeTopics = true;
 			randomIndex = (int) Math.floor(Math.random()*dislikeResponses.length);
 			ChatbotMain.print(dislikeResponses[randomIndex]);
 		}else if(flirty) {
@@ -171,7 +156,6 @@ public class ChatbotErik implements Topic {
 			ChatbotMain.print("Let's talk some more about that! What about it?");
 		chatting = true;
 		while(chatting) {
-			//int stayOnTopic = topicTrigger;
 
 			response = ChatbotMain.getInput();
 
@@ -218,7 +202,7 @@ public class ChatbotErik implements Topic {
 					}else if(questionType.equals("when")) {
 						ChatbotMain.print("Never.");
 					}else if(questionType.equals("where")) {
-						ChatbotMain.print("That's a secret");
+						ChatbotMain.print("That's a secret.");
 					}else if(questionType.equals("why")) {
 						ChatbotMain.print("I'll never tell.");
 					}else if(questionType.equals("how")) {
@@ -234,7 +218,7 @@ public class ChatbotErik implements Topic {
 						randomIndex = (int) Math.floor(Math.random()*interestResponses.length);
 						ChatbotMain.print(interestResponses[randomIndex]);
 						numberOfInterest++;
-						if(numberOfInterest > 4) {
+						if(numberOfInterest > 2) {
 							aweTopics = false;
 							forceChange = true;
 						}
@@ -247,7 +231,7 @@ public class ChatbotErik implements Topic {
 							randomIndex = (int) Math.floor(Math.random()*neutralResponses.length);
 							ChatbotMain.print(neutralResponses[randomIndex]);
 							numberOfNeutral++;
-							if(numberOfNeutral > 2) {
+							if(numberOfNeutral > 1) {
 								regTopics = false;
 								forceChange = true;
 							}
@@ -272,7 +256,7 @@ public class ChatbotErik implements Topic {
 								randomIndex = (int) Math.floor(Math.random()*neutralResponses.length);
 								ChatbotMain.print(neutralResponses[randomIndex]);
 								numberOfNeutral++;
-								if(numberOfNeutral > 2) {
+								if(numberOfNeutral > 1) {
 									regTopics = false;
 									forceChange = true;
 								}
@@ -282,7 +266,7 @@ public class ChatbotErik implements Topic {
 								randomIndex = (int) Math.floor(Math.random()*interestResponses.length);
 								ChatbotMain.print(interestResponses[randomIndex]);
 								numberOfInterest++;
-								if(numberOfInterest > 4) {
+								if(numberOfInterest > 2) {
 									aweTopics = false;
 									forceChange = true;
 								}
