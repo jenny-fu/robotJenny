@@ -132,6 +132,7 @@ public class ChatbotJenny implements Topic {
 				confess = true;
 				askDate = false;
 			}
+			
 			if(responseBefore.toLowerCase().equals(response.toLowerCase())) {
 				ChatbotMain.print("I thought I told you already.");
 				resCount++;
