@@ -85,56 +85,54 @@ public class ChatbotJenny implements Topic {
 	
 	public void startChatting(String response) {
 		String responseBefore = "";
+		if(ChatbotSam.getComplimentScore() < 4 || ChatbotSam.getComplimentScore() > 6) {
+		for(int j = 0; j < confessions.length; j++) {
+			if(ChatbotMain.findKeyword(response, confessions[j], 0) >= 0) {
+				ChatbotMain.print(reject[index]);
+				confess = true;
+				askDate = false;
+				response = ChatbotMain.getInput();
+			}
+		}
+		for(int i = 0; i < date.length; i++) {
+			if(ChatbotMain.findKeyword(response, date[i], 0) >= 0) {
+				ChatbotMain.print("No, sorry.");
+				confess = false;
+				askDate = true;
+				response = ChatbotMain.getInput();
+			}
+		}
+	}else if(askedOut(response)) {
+		responseBefore = response;
+			ChatbotMain.print("Sure, I'll go on a date with you! Where do you want to go?");
+			response = ChatbotMain.getInput();
+			if(ChatbotMain.findKeyword(response, "do you", 0) >= 0) {
+				ChatbotMain.print("Why do you want to go to " + location(response,0) + "?");
+			}else 
+				ChatbotMain.print("Sure, let's go to " + location(response,0) + "! I'll go get ready. Bye!");
+				ChatbotMain.chatbot.startTalkingAgain();
+	}else if(confessed(response)) {
+		responseBefore = response;
+		if(ChatbotSam.getComplimentScore() == 6) {
+			ChatbotMain.print(accept[confessionIdx]);
+			ChatbotMain.print("Oh! I just remembered I had to do something. I'll see you next time!");
+			ChatbotMain.chatbot.startTalkingAgain();
+		}else if(ChatbotSam.getComplimentScore() < 6)
+			ChatbotMain.print("Oh...um, sorry, try again after a bit.");
+			else
+				ChatbotMain.print("Oh...but you're like my best friend!");
+	}
 		chatting = true;
 		while(chatting) {
 			
-			if(ChatbotSam.getComplimentScore() < 4 || ChatbotSam.getComplimentScore() > 6) {
-				for(int j = 0; j < confessions.length; j++) {
-					if(ChatbotMain.findKeyword(response, confessions[j], 0) >= 0) {
-						ChatbotMain.print(reject[index]);
-						confess = true;
-						askDate = false;
-						response = ChatbotMain.getInput();
-					}
-				}
-				for(int i = 0; i < date.length; i++) {
-					if(ChatbotMain.findKeyword(response, date[i], 0) >= 0) {
-						ChatbotMain.print("No, sorry.");
-						confess = false;
-						askDate = true;
-						response = ChatbotMain.getInput();
-					}
-				}
-			}else if(askedOut(response)) {
-				responseBefore = response;
-					ChatbotMain.print("Sure, I'll go on a date with you! Where do you want to go?");
-					response = ChatbotMain.getInput();
-					if(ChatbotMain.findKeyword(response, "do you", 0) >= 0) {
-						ChatbotMain.print("Why do you want to go to " + location(response,0) + "?");
-					}else 
-						ChatbotMain.print("Sure, let's go to " + location(response,0) + "! I'll go get ready. Bye!");
-						ChatbotMain.chatbot.startTalkingAgain();
-			}else if(confessed(response)) {
-				responseBefore = response;
-				if(ChatbotSam.getComplimentScore() == 6) {
-					ChatbotMain.print(accept[confessionIdx]);
-					ChatbotMain.print("Oh! I just remembered I had to do something. I'll see you next time!");
-					ChatbotMain.chatbot.startTalkingAgain();
-				}else if(ChatbotSam.getComplimentScore() < 6)
-					ChatbotMain.print("Oh...um, sorry, try again after a bit.");
-					else
-						ChatbotMain.print("Oh...but you're like my best friend!");
-			}
-				
-			if(askedOut(response)) {
-				askDate = true;
-				confess = false;
-			}
-			if(confessed(response)) {
+		if(askedOut(response)) {
+			askDate = true;
+			confess = false;
+		}
+		if(confessed(response)) {
 				confess = true;
 				askDate = false;
-			}
-			
+		}
 			if(responseBefore.toLowerCase().equals(response.toLowerCase())) {
 				ChatbotMain.print("I thought I told you already.");
 				resCount++;
@@ -179,6 +177,7 @@ public class ChatbotJenny implements Topic {
 				ChatbotMain.chatbot.startTalkingAgain();
 			}else
 				ChatbotMain.print("Huh. I don't really get you. Tell me something else.");
+			
 			responseBefore = response;
 			response = ChatbotMain.getInput();
 		}
