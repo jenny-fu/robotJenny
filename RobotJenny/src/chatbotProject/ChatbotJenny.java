@@ -149,7 +149,7 @@ public class ChatbotJenny implements Topic {
 						ChatbotMain.print("I said that " + excuse[idx]);
 					}
 					response = ChatbotMain.getInput();
-					if(responseBefore.toLowerCase().equals(response.toLowerCase()))
+					if(responseBefore.toLowerCase().equals(response.toLowerCase())) 
 						resCount++;
 					else {
 						resCount = 0;
