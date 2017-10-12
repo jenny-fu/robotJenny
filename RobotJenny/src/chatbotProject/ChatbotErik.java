@@ -74,6 +74,7 @@ public class ChatbotErik implements Topic {
 			}
 		}
 		
+		/*
 		if(!ChatbotMain.chatbot.getSam().isTriggered(response) && !ChatbotMain.chatbot.getJenny().isTriggered(response)) {
 			int number = (int) Math.floor((Math.random()*3)+1);
 			if(number == 1) {
@@ -89,7 +90,7 @@ public class ChatbotErik implements Topic {
 			}
 		}
 		
-		
+		*/
 		return false;
 	}
 
