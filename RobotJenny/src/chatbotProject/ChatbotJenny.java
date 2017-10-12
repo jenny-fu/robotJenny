@@ -18,6 +18,8 @@ public class ChatbotJenny implements Topic {
 	private int confessionIdx;
 	private int index;
 	private int idx;
+	private String responseBefore;
+	private String[] basic;
 
 	public ChatbotJenny() {
 		String[] temp = {"date", "free", "hang out", "dating", "do you want to go to", "let's go to"};
@@ -30,6 +32,7 @@ public class ChatbotJenny implements Topic {
 		String[] temp7 = {"I would love to be your girlfriend!", "I wouldn't mind if you were my boyfriend.", "I like you too!", "I love you too!",
 				"I don't want to get married right now, but I can accept you as my boyfriend!", "Aww I'll accept you confession!", "We are official now. Don't let me catch you staring at other girls!"};
 		String[] temp8 = {"I just", "I'm just"};
+		String[] temp9 = {"Yeah", "Yea", "Mhm", "Okay", "Hmm", "Haha", "Ok", ":)", "Yup", "...", "Say something else."};
 		date = temp;
 		confessions = temp2;
 		question = temp3;
@@ -38,12 +41,14 @@ public class ChatbotJenny implements Topic {
 		repeat = temp6;
 		accept = temp7;
 		beforeReject = temp8;
+		basic = temp9;
 		goodbyeWord = "bye";
 		resCount = 0;
 		askDate = false;
 		confess = false;
 		index = (int) Math.floor(Math.random() * reject.length);
 		idx = (int) Math.floor(Math.random() * excuse.length);
+		responseBefore = "";
 	}
 
 	public boolean isTriggered(String response) {
@@ -82,10 +87,7 @@ public class ChatbotJenny implements Topic {
 		}	 
 		return false;
 	}
-
-	public void startChatting(String response) {
-		String responseBefore = "";
-
+	public void complimentMethod(String response) {
 		if(ChatbotSam.getComplimentScore() < 4 || ChatbotSam.getComplimentScore() > 6) {
 			for(int j = 0; j < confessions.length; j++) {
 				if(ChatbotMain.findKeyword(response, confessions[j], 0) >= 0) {
@@ -121,9 +123,40 @@ public class ChatbotJenny implements Topic {
 			else
 				ChatbotMain.print("Oh...but you're like my best friend!");
 		}
+	}
+	
+	public void repeatMethod(String response) {
+		ChatbotMain.print("I thought I told you already.");
+		resCount++;
+		int i = 0;
+		while(resCount > 0) {
+			if(i > repeat.length - 1) {
+				ChatbotMain.print("I won't talk to you until you say something else.");
+			}else if(resCount%2 == 0) {
+				ChatbotMain.print(repeat[i]);
+				i++;
+			}else if(confess && resCount > 1){
+				ChatbotMain.print("I SAID that " + reject[index]);
+			}else if(askDate && resCount > 1) {
+				ChatbotMain.print("I said that " + excuse[idx]);
+			}
+			response = ChatbotMain.getInput();
+			if(responseBefore.toLowerCase().equals(response.toLowerCase())) 
+				resCount++;
+			else {
+				resCount = 0;
+				ChatbotMain.print("What a waste of my time.");
+			}
+		}
+	}
+	
+	public void startChatting(String response) {
+
+		complimentMethod(response);
 		chatting = true;
 		while(chatting) {
 			response = ChatbotMain.getInput();
+			
 			if(askedOut(response)) {
 				askDate = true;
 				confess = false;
@@ -134,28 +167,7 @@ public class ChatbotJenny implements Topic {
 			}
 			
 			if(responseBefore.toLowerCase().equals(response.toLowerCase())) {
-				ChatbotMain.print("I thought I told you already.");
-				resCount++;
-				int i = 0;
-				while(resCount > 0) {
-					if(i > repeat.length - 1) {
-						ChatbotMain.print("I won't talk to you until you say something else.");
-					}else if(resCount%2 == 0) {
-						ChatbotMain.print(repeat[i]);
-						i++;
-					}else if(confess && resCount > 1){
-						ChatbotMain.print("I SAID that " + reject[index]);
-					}else if(askDate && resCount > 1) {
-						ChatbotMain.print("I said that " + excuse[idx]);
-					}
-					response = ChatbotMain.getInput();
-					if(responseBefore.toLowerCase().equals(response.toLowerCase())) 
-						resCount++;
-					else {
-						resCount = 0;
-						ChatbotMain.print("What a waste of my time.");
-					}
-				}
+				repeatMethod(response);
 			}else if(ChatbotMain.chatbot.getErik().isTriggered(response)) {
 				ChatbotMain.chatbot.getErik().startChatting(response);
 			}else if(ChatbotMain.chatbot.getSam().isTriggered(response)) {
@@ -170,17 +182,42 @@ public class ChatbotJenny implements Topic {
 					}else {
 						String rejection = reject[index].substring(2);
 						ChatbotMain.print(beforeReject[0] + " " + rejection);
-					}	
+					}
 				}
-			}else if(ChatbotMain.findKeyword(response, goodbyeWord, 0) >= 0) {
+			}else if(askDate && related(response) || confess && related(response))
+					complimentMethod(response);
+			else if(ChatbotMain.findKeyword(response, goodbyeWord, 0) >= 0) {
 				chatting = false;
 				ChatbotMain.chatbot.startTalkingAgain();
-			}else
-				ChatbotMain.print("Huh. I don't really get you. Tell me something else.");
+			}else {
+				int i = (int) Math.floor(Math.random() * basic.length);
+				ChatbotMain.print(basic[i]);
+			}
 
 			responseBefore = response;
-			response = ChatbotMain.getInput();
 		}
+	}
+	
+	public boolean related(String response) {
+		for(int i = 0; i < question.length; i++) {
+			if(ChatbotMain.findKeyword(response, question[i], 0) >= 0) {
+				return true;
+			}
+		}
+		
+		for(int j = 0; j < date.length; j++) {
+			if(ChatbotMain.findKeyword(response, date[j], 0) >= 0) {
+				return true;
+			}
+		}
+		
+		for(int k = 0; k < confessions.length; k++) {
+			if(ChatbotMain.findKeyword(response, confessions[k], 0) >= 0) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	public String location(String response, int psn) {
