@@ -14,7 +14,7 @@ public class ChatbotErik implements Topic {
 	private int complimentScore;
 	private String[] robotDislikes;
 	private String[] dislikeResponses;
-	private boolean dislikeTopics = false;
+	//private boolean dislikeTopics = false;
 	private String[] questions;
 	private String questionType = "";
 	private String[] goodbyeWords;
@@ -35,7 +35,7 @@ public class ChatbotErik implements Topic {
 		interestResponses  = temp4;
 		String[] temp5 = {"You're being annoying.","Is that all you can say?","Such extensive vocabulary","Are you having fun?",};
 		repeatResponses = temp5;
-		String[] temp6 = {"okay cutie", "of course babe", "sounds lit hon", "thats so funny eksdee"};
+		String[] temp6 = {"okay cutie", "of course babe", "sounds lit hon", "thats so funny eksdee","sorry im not listening to you, too busy getting lost in your eyes ;)","you're really cute, but you know that already","-plays with hair-"};
 		flirtyResponses = temp6;		
 		String[] temp7 = {"entertainment","video games","sports","internet","school","homework","documentaries"};
 		robotDislikes = temp7;
@@ -69,10 +69,27 @@ public class ChatbotErik implements Topic {
 		for(int k = 0; k < robotDislikes.length; k++){
 			if((ChatbotMain.findKeyword(response, robotDislikes[k], 0) >= 0)){
 				//topicTrigger = k;
-				dislikeTopics = true;
+				//dislikeTopics = true;
 				return true;
 			}
 		}
+		
+		if(!ChatbotMain.chatbot.getSam().isTriggered(response) && !ChatbotMain.chatbot.getJenny().isTriggered(response)) {
+			int number = (int) Math.floor((Math.random()*3)+1);
+			if(number == 1) {
+			ChatbotMain.print("(Hint: You should compliment me)");
+			}else if (number == 2){
+				int random = (int) Math.floor(Math.random()*litTopics.length);
+				String prompt = litTopics[random];
+				int random2 = (int) Math.floor(Math.random()*topics.length);
+				String prompt2 = topics[random2];
+				ChatbotMain.print("(Hint: I could talk about " + prompt + "," + prompt2 + " and more)");
+			}else {
+				ChatbotMain.print("(Hint: If you are feeling it, maybe you should ask me out ;) )");
+			}
+		}
+		
+		
 		return false;
 	}
 
@@ -142,6 +159,7 @@ public class ChatbotErik implements Topic {
 		int numberOfRepeat = 0;
 		int numberOfFlirt = 0;
 		int randomIndex = 0;
+	
 		boolean forceChange = false;
 		complimentScore = ChatbotSam.getComplimentScore();
 		flirty = checkFlirty();
@@ -150,13 +168,18 @@ public class ChatbotErik implements Topic {
 			randomIndex = (int) Math.floor(Math.random()*dislikeResponses.length);
 			ChatbotMain.print(dislikeResponses[randomIndex]);
 		}else if(flirty) {
-			ChatbotMain.print("What's up cutie?");
+			ChatbotMain.print("Im feeling kind of flirty...");
 		}
 		else
 			ChatbotMain.print("Let's talk some more about that! What about it?");
 		chatting = true;
 		while(chatting) {
 
+			int randomNumber1 = (int) Math.floor(Math.random()*litTopics.length);
+			String topicPrompt = litTopics[randomNumber1];
+			int randomNumber2 = (int) Math.floor(Math.random()*topics.length);
+			String topicPrompt2 = topics[randomNumber2];
+			
 			response = ChatbotMain.getInput();
 
 			flirty = checkFlirty();
@@ -192,7 +215,7 @@ public class ChatbotErik implements Topic {
 
 				if(forceChange) {
 					lastResponse = response;
-					ChatbotMain.print("Sorry, but is this going to take any longer? I am getting bored of you. Tell me something else.");
+					ChatbotMain.print("Sorry, but is this going to take any longer? I am getting bored of you. I could talk about " + topicPrompt + "," + topicPrompt2 + ".");
 					ChatbotMain.chatbot.startTalkingAgain();
 				}else if(isTriggeredQuestions(response)) {
 					if(questionType.equals("who")) {
@@ -281,7 +304,7 @@ public class ChatbotErik implements Topic {
 								lastResponse = response;
 								numberOfNeutral = 0;
 								numberOfInterest = 0;
-								ChatbotMain.print("Tell me something else please. Like any other topic.");
+								ChatbotMain.print("Tell me something else please.\nLike any other topic.(ex. " + topicPrompt + "," + topicPrompt2 + ")\nOr you can compliment me ;)");
 							}
 		}
 	}
